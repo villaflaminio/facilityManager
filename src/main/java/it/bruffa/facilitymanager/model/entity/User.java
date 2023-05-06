@@ -60,6 +60,26 @@ public class User  extends DateAudit {
     @Transient
     @JsonIgnore
     private Set<GrantedAuthority> authorities ;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private List<CleaningAction> cleaningActions = new ArrayList<>();
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private List<Feedback> feedbacks = new ArrayList<>();
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    private List<Maintenance> maintenances = new ArrayList<>();
+
+    @OneToOne(orphanRemoval = true)
+    @JoinTable(name = "users_quote",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "quote_id"))
+    private Quote quote;
+
+
     /**
      * Method to get the authorities of the user.
      * @return
