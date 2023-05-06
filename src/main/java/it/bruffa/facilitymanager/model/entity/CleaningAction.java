@@ -6,10 +6,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "cleaning_action")
+@Builder
 public class CleaningAction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

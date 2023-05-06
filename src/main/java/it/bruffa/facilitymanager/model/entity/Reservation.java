@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -28,12 +29,20 @@ public class Reservation {
     private Structure structure;
 
     @NotNull
+    @Column(name ="arrival")
+    private LocalDate arrival;
+
+    @NotNull
+    @Column(name = "departure")
+    private LocalDate departure;
+
+    @NotNull
     @Column(name = "check_in")
-    private LocalDateTime checkIn;
+    private LocalTime checkIn;
 
     @NotNull
     @Column(name = "check_out")
-    private LocalDateTime checkOut;
+    private LocalTime checkOut;
 
     @NotNull
     @Column(name = "guests")

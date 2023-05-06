@@ -1,28 +1,64 @@
 package it.bruffa.facilitymanager.service;
 
-import it.bruffa.facilitymanager.model.entity.Reservation;
-import it.bruffa.facilitymanager.model.entity.Structure;
-import it.bruffa.facilitymanager.model.entity.User;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
+import it.bruffa.facilitymanager.model.entity.*;
+import it.bruffa.facilitymanager.repository.*;
+import it.bruffa.facilitymanager.service.impl.CleaningActionServiceImpl;
+import it.bruffa.facilitymanager.service.impl.ReservationServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@RunWith(MockitoJUnitRunner.class)
-public class CleaningActionService {
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+public class CleaningActionServiceTest {
+
+    @Mock
+    private RoleRepository roleRepository;
+
+    @Mock
+    private CheckListRepository checkListRepository;
+
+    @Mock
+    private CleaningActionRepository cleaningActionRepository;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private ReservationRepository reservationRepository;
+
     @InjectMocks
-    CleaningActionService cleaningActionService = new CleaningActionService();
+    private CleaningActionServiceImpl cleaningActionService;
 
+    @Mock
+    private ReservationServiceImpl reservationServiceImpl;
+
+    Role roleCleaner = new Role();
+    CheckList checkList = new CheckList();
+    LocalDate checkOut = LocalDate.of(2021, 1, 1);
     User user1 = new User();
     User user2 = new User();
     User user3 = new User();
     User user4 = new User();
-    List<User> users = new ArrayList<>();
+    List<User> cleaners = new ArrayList<>();
 
 
     Structure structure1 = new Structure();
@@ -34,7 +70,6 @@ public class CleaningActionService {
     Structure structure7 = new Structure();
 
 
-
     Reservation reservation1 = new Reservation();
     Reservation reservation2 = new Reservation();
     Reservation reservation3 = new Reservation();
@@ -44,33 +79,37 @@ public class CleaningActionService {
     Reservation reservation7 = new Reservation();
 
     List<Reservation> reservations = new ArrayList<>();
+
     @BeforeEach
     void setUp() {
+        roleCleaner.setId(1L);
+        roleCleaner.setName("ROLE_CLEANER");
+
         user1.setId(1L);
-        user1.setFirstName("Mario");
-        user1.setLastName("Rossi-eur");
-        user1.setEmail("mariorossi@gmail.com");
+        user1.setFirstName("user1");
+        user1.setLastName("eur");
+        user1.setEmail("user1@gmail.com");
         user1.setLatitude(41.82881948167025);
         user1.setLongitude(12.47105618287844);
 
         user2.setId(2L);
-        user2.setFirstName("Luigi");
-        user2.setLastName("Verdi-castelSantAngelo");
-        user2.setEmail("luigiverdi@gmail.com");
+        user2.setFirstName("user2");
+        user2.setLastName("castelSantAngelo");
+        user2.setEmail("user2@gmail.com");
         user2.setLatitude(41.90321481596937);
         user2.setLongitude(12.466329625229484);
 
         user3.setId(3L);
-        user3.setFirstName("Giovanni");
-        user3.setLastName("Bianchi-elis");
-        user3.setEmail("giovannibianchi@gmail.com");
+        user3.setFirstName("user3");
+        user3.setLastName("elis");
+        user3.setEmail("user3@gmail.com");
         user3.setLatitude(41.90663196282034);
         user3.setLongitude(12.549319304895146);
 
         user4.setId(4L);
-        user4.setFirstName("Giuseppe");
-        user4.setLastName("Neri-ostia");
-        user4.setEmail("giuseppeneri@gmail.com");
+        user4.setFirstName("user4");
+        user4.setLastName("ostia");
+        user4.setEmail("user4@gmail.com");
         user4.setLatitude(41.737130533207726);
         user4.setLongitude(12.285132476685916);
 
@@ -126,31 +165,31 @@ public class CleaningActionService {
 
         reservation1.setId(1L);
         reservation1.setStructure(structure1);
-        reservation1.setCheckOut(LocalDateTime.of(2021, 5, 10, 10, 0));
+        reservation1.setDeparture(checkOut);
 
         reservation2.setId(2L);
         reservation2.setStructure(structure2);
-        reservation2.setCheckOut(LocalDateTime.of(2021, 5, 10, 16, 0));
+        reservation2.setDeparture(checkOut);
 
         reservation3.setId(3L);
         reservation3.setStructure(structure3);
-        reservation3.setCheckOut(LocalDateTime.of(2021, 5, 10, 8, 30));
+        reservation3.setDeparture(checkOut);
 
         reservation4.setId(4L);
         reservation4.setStructure(structure4);
-        reservation4.setCheckOut(LocalDateTime.of(2021, 5, 10, 6, 0));
+        reservation4.setDeparture(checkOut);
 
         reservation5.setId(5L);
         reservation5.setStructure(structure5);
-        reservation5.setCheckOut(LocalDateTime.of(2021, 5, 10, 18, 0));
+        reservation5.setDeparture(checkOut);
 
         reservation6.setId(6L);
         reservation6.setStructure(structure6);
-        reservation6.setCheckOut(LocalDateTime.of(2021, 5, 10, 5, 30));
+        reservation6.setDeparture(checkOut);
 
         reservation7.setId(7L);
         reservation7.setStructure(structure7);
-        reservation7.setCheckOut(LocalDateTime.of(2021, 5, 10, 12, 0));
+        reservation7.setDeparture(checkOut);
 
 
         reservations.add(reservation1);
@@ -160,7 +199,23 @@ public class CleaningActionService {
         reservations.add(reservation5);
         reservations.add(reservation6);
         reservations.add(reservation7);
+
+
+        cleaners.add(user1);
+        cleaners.add(user2);
+        cleaners.add(user3);
+        cleaners.add(user4);
     }
 
+    @Test
+    void getCleaners() {
+        when(roleRepository.findByName("ROLE_CLEANER")).thenReturn(Optional.of(roleCleaner));
+        when(checkListRepository.findByName("CLEANER")).thenReturn(Optional.of(checkList));
+        when(userRepository.findByRoles(roleCleaner)).thenReturn(cleaners);
+        when(reservationServiceImpl.getReservationsWithCheckOnDay(checkOut)).thenReturn(reservations);
+
+        List<CleaningAction> cleanersTest = cleaningActionService.assignCleaningAction(checkOut);
+
+    }
 
 }
