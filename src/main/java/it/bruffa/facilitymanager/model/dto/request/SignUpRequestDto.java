@@ -9,17 +9,17 @@ import lombok.Data;
 @Data
 public class SignUpRequestDto {
     @NotBlank
-    @Schema(description = "First name of the user", example = "John")
+    @Schema(description = "First name of the user", example = "Mario")
     private String firstName;
     @NotBlank
-    @Schema(description = "Last name of the user", example = "Doe")
+    @Schema(description = "Last name of the user", example = "Rossi")
     private String lastName;
-    @Schema(description = "Username of the user", example = "johndoe")
+    @Schema(description = "Username of the user", example = "MarioRossi")
     private String username;
 
     @NotBlank
     @Email
-    @Schema(description = "Email of the user", example = "jon@elis.org")
+    @Schema(description = "Email of the user", example = "mariorossi@gmail.com")
     private String email;
 
     @NotBlank

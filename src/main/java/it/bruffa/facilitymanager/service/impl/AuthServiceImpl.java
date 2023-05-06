@@ -163,6 +163,8 @@ public class AuthServiceImpl implements AuthService {
         // Get ADMIN and USER role.
         Optional<Role> ruoloAdmin = roleRepository.findByName("ROLE_ADMIN");
         Optional<Role> ruoloUser = roleRepository.findByName("ROLE_USER");
+        Optional<Role> ruoloMaintainer = roleRepository.findByName("ROLE_MAINTAINER");
+        Optional<Role> ruoloCleaner = roleRepository.findByName("ROLE_CLEANER");
         ArrayList<Role> roles = new ArrayList<>();
 
         // If the roles are not present, create them.
@@ -180,10 +182,22 @@ public class AuthServiceImpl implements AuthService {
         } else {
             roles.add(ruoloUser.get());
         }
-
-
+        if (ruoloMaintainer.isEmpty()) {
+            Role role = new Role();
+            role.setName("ROLE_MAINTAINER");
+            roles.add(roleRepository.save(role));
+        } else {
+            roles.add(ruoloMaintainer.get());
+        }
+        if (ruoloCleaner.isEmpty()) {
+            Role role = new Role();
+            role.setName("ROLE_CLEANER");
+            roles.add(roleRepository.save(role));
+        } else {
+            roles.add(ruoloCleaner.get());
+        }
         User user = new User();
-        user.setEmail("admin@elis.org");
+        user.setEmail("bruffa@gmail.com");
         user.setUsername("user_admin");
         user.setFirstName("firstName_admin");
         user.setLastName("lastName_admin");
