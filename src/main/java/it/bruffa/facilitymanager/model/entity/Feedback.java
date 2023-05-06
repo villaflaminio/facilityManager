@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -27,13 +28,14 @@ public class Feedback {
     @Min(1)
     private Integer rating;
 
-    @Column(name = "rating")
+    @Column(name = "rating_before_intervention")
     @Max(5)
     @Min(1)
     private Integer ratingBeforeIntervention;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "feedback-user")
     private User user;
 
 
@@ -50,12 +52,14 @@ public class Feedback {
     @JoinTable(name = "feedback_maintenance",
             joinColumns = @JoinColumn(name = "feedback_id"),
             inverseJoinColumns = @JoinColumn(name = "maintenance_id"))
+    @JsonBackReference(value = "feedback-maintenance")
     private Maintenance maintenance;
 
     @OneToOne(orphanRemoval = true)
     @JoinTable(name = "feedback_cleaning_action",
             joinColumns = @JoinColumn(name = "feedback_id"),
             inverseJoinColumns = @JoinColumn(name = "cleaning_action_id"))
+    @JsonBackReference(value = "feedback-cleaningAction")
     private CleaningAction cleaningAction;
 
 }

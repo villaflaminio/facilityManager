@@ -1,5 +1,7 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -39,10 +41,12 @@ public class Gate {
     private String mqttTopic;
 
     @OneToOne(mappedBy = "gate", optional = false)
+    @JsonBackReference(value = "gate-structure")
     private Structure structure;
 
 
     @OneToMany(mappedBy = "gate", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "gate-accessLog")
     private List<AccessLog> accessLogs;
 
 

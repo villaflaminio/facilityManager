@@ -1,5 +1,7 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,18 +21,22 @@ public class Maintenance {
 
     @ManyToOne
     @JoinColumn(name = "structure_id")
+    @JsonBackReference(value = "structure-maintenance")
     private Structure structure;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "user-maintenance")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "check_list_id")
+    @JsonManagedReference(value = "checkList-maintenance")
     private CheckList checkList;
 
     @OneToOne
     @JoinColumn(name = "feedback_id")
+    @JsonManagedReference(value = "feedback-maintenance")
     private Feedback feedback;
 
 
@@ -49,12 +55,15 @@ public class Maintenance {
     private Integer duration;
 
     @OneToMany(mappedBy = "maintenance")
+    @JsonManagedReference(value = "maintenance")
     private List<File> picturesBefore;
 
     @OneToMany(mappedBy = "maintenance")
+    @JsonManagedReference(value = "maintenance")
     private List<File> picturesAfter;
 
     @OneToMany(mappedBy = "maintenance")
+    @JsonManagedReference(value = "maintenance")
     private List<File> documents;
 
     @Column(name = "cost")
@@ -65,6 +74,7 @@ public class Maintenance {
     @JoinTable(name = "maintenance_quote",
             joinColumns = @JoinColumn(name = "maintenance_id"),
             inverseJoinColumns = @JoinColumn(name = "quote_id"))
+    @JsonManagedReference(value = "maintenance-quote")
     private Quote quote;
 
 }

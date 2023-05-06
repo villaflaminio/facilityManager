@@ -1,5 +1,7 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -29,14 +31,17 @@ public class Quote {
 
     @OneToOne
     @JoinColumn(name = "maintenance_id")
+    @JsonBackReference(value = "maintenance-quote")
     private Maintenance maintenance;
 
     @OneToOne
     @JoinColumn(name = "structure_id")
+    @JsonBackReference(value = "structure-quote")
     private Structure structure;
 
     @OneToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "user-quote")
     private User user;
 
     @Column(name = "time")
@@ -45,6 +50,7 @@ public class Quote {
 
     @OneToOne
     @JoinColumn(name = "file_id")
+    @JsonManagedReference(value = "file-quote")
     private File file;
 
     @NotNull

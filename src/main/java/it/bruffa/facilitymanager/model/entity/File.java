@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,22 +22,26 @@ public class File {
     private String name;
     private String type;
 
-    @ManyToOne()
-    private CleaningAction cleaningActions;
-
-
     @Lob
     @Column(name = "imagedata")
     private byte[] imageData;
 
+
+    @ManyToOne()
+    @JsonBackReference(value = "cleaningAction-picture")
+    private CleaningAction cleaningActions;
+
+
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "maintenance_id")
+    @JsonBackReference(value = "maintenance")
     private Maintenance maintenance;
 
     @OneToOne(orphanRemoval = true)
     @JoinTable(name = "file_quote",
             joinColumns = @JoinColumn(name = "file_id"),
             inverseJoinColumns = @JoinColumn(name = "quote_id"))
+    @JsonBackReference(value = "file-quote")
     private Quote quote;
 
     public Long getId() {
@@ -73,4 +78,6 @@ public class File {
     public void setCleaningActions(CleaningAction cleaningActions) {
         this.cleaningActions = cleaningActions;
     }
+
+
 }

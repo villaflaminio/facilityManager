@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -65,21 +66,25 @@ public class Structure {
 
     @OneToOne
     @JoinColumn(name = "gate_id")
+    @JsonManagedReference(value = "gate-structure")
     private Gate gate;
 
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "structure_id")
+    @JsonManagedReference(value = "structure-cleaningAction")
     private List<CleaningAction> cleaningActions = new ArrayList<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "structure_id")
+    @JsonManagedReference(value = "structure-maintenance")
     private List<Maintenance> maintenances = new ArrayList<>();
 
     @OneToOne(orphanRemoval = true)
     @JoinTable(name = "structure_quote",
             joinColumns = @JoinColumn(name = "structure_id"),
             inverseJoinColumns = @JoinColumn(name = "quote_id"))
+    @JsonManagedReference(value = "structure-quote")
     private Quote quote;
 
 }

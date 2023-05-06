@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ public class AccessLog {
 
     @ManyToOne()
     @JoinColumn(name = "gate_id", referencedColumnName = "id" , nullable = false )
+    @JsonBackReference(value = "gate-accessLog")
     private Gate gate;
 
 }

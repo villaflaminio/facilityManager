@@ -63,20 +63,24 @@ public class User  extends DateAudit {
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
+    @JsonManagedReference(value = "user-cleaningAction")
     private List<CleaningAction> cleaningActions = new ArrayList<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
+    @JsonManagedReference(value = "feedback-user")
     private List<Feedback> feedbacks = new ArrayList<>();
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
+    @JsonManagedReference(value = "user-maintenance")
     private List<Maintenance> maintenances = new ArrayList<>();
 
     @OneToOne(orphanRemoval = true)
     @JoinTable(name = "users_quote",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "quote_id"))
+    @JsonManagedReference(value = "user-quote")
     private Quote quote;
 
 

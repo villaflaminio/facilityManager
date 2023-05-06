@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,8 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "structure_id")
+    @JsonBackReference(value = "structure-reservation")
     private Structure structure;
-
 
     @NotNull
     @Column(name = "check_in")

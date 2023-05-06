@@ -1,5 +1,7 @@
 package it.bruffa.facilitymanager.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -38,10 +40,12 @@ public class CheckList {
 
 
     @OneToMany(mappedBy = "checkList")
+    @JsonBackReference(value = "checkList-cleaningAction")
     private List<CleaningAction> cleaningAction;
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "check_list_id")
+    @JsonBackReference(value = "checkList-maintenance")
     private List<Maintenance> maintenances = new ArrayList<>();
 
 }
