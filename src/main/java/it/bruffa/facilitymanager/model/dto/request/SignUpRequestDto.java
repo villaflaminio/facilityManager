@@ -26,4 +26,13 @@ public class SignUpRequestDto {
     @Schema(description = "Password of the user", example = "password")
     private String password;
 
+    @NotNull
+    @Schema(description = "Latitude of the user", example = "45.123456")
+    private Double latitude;
+
+    @NotNull
+    @Schema(description = "Longitude of the user", example = "9.123456")
+    private Double longitude;
+
+
 }

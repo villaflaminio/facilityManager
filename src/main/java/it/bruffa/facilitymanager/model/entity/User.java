@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import it.bruffa.facilitymanager.model.modelbase.DateAudit;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,25 +26,28 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "users")
-public class User  extends DateAudit {
+public class User extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="first_name")
+    @NotNull
+    @Column(name = "first_name")
     private String firstName;
+    @NotNull
 
-    @Column(name="last_name")
+    @Column(name = "last_name")
     private String lastName;
-
-    @Column(name="email",nullable = false, unique = true)
+    @NotNull
+    @Email
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name="username")
+    @Column(name = "username")
     private String username;
 
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
 
 
@@ -63,11 +67,11 @@ public class User  extends DateAudit {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    private Collection<Role> roles ;
+    private Collection<Role> roles;
 
     @Transient
     @JsonIgnore
-    private Set<GrantedAuthority> authorities ;
+    private Set<GrantedAuthority> authorities;
 
     @OneToMany(orphanRemoval = true)
     @JoinColumn(name = "user_id")
@@ -94,26 +98,28 @@ public class User  extends DateAudit {
 
     /**
      * Method to get the authorities of the user.
+     *
      * @return
      */
     public List<SimpleGrantedAuthority> getAuthorities() {
 
         List<SimpleGrantedAuthority> list = new ArrayList<SimpleGrantedAuthority>();
-        for (Role role: roles) {
+        for (Role role : roles) {
             list.add(new SimpleGrantedAuthority(role.getName()));
         }
         return list;
     }
-    @Column(name="enable")
+
+    @Column(name = "enable")
     private Boolean enable;
 
-    @Column(name="credential_expired")
+    @Column(name = "credential_expired")
     private Boolean credentialExpired;
 
-    @Column(name="account_non_expired")
+    @Column(name = "account_non_expired")
     private Boolean accountNonExpired;
 
-    @Column(name="account_non_locked")
+    @Column(name = "account_non_locked")
     private Boolean accountNonLocked;
 
 }

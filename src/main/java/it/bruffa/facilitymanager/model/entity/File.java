@@ -44,6 +44,13 @@ public class File {
     @JsonBackReference(value = "file-quote")
     private Quote quote;
 
+    public File(Long id,String fileName, String contentType, byte[] bytes) {
+        this.id = id;
+        this.name = fileName;
+        this.type = contentType;
+        this.imageData = bytes;
+    }
+
     public Long getId() {
         return id;
     }
