@@ -39,7 +39,6 @@ public class Feedback {
     private User user;
 
 
-
     @Column(name = "date")
     @NotNull
     private LocalDateTime date;

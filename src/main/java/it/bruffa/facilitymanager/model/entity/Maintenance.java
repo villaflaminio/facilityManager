@@ -69,7 +69,6 @@ public class Maintenance {
     @Column(name = "cost")
     private Double cost;
 
-
     @OneToOne(orphanRemoval = true)
     @JoinTable(name = "maintenance_quote",
             joinColumns = @JoinColumn(name = "maintenance_id"),

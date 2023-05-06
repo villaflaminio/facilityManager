@@ -30,7 +30,6 @@ public class Reservation {
     @Column(name = "check_in")
     private LocalDate checkIn;
 
-
     @NotNull
     @Column(name = "check_out")
     private LocalDate checkOut;

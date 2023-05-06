@@ -25,7 +25,6 @@ public class CleaningAction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @ManyToOne
     @JoinColumn(name = "check_list_id")
     @JsonManagedReference(value = "checkList-cleaningAction")
@@ -44,11 +43,6 @@ public class CleaningAction {
     @Column(name = "date")
     private LocalDate date;
 
-    @Column(name = "duration")
-    @Max(24)
-    @Min(1)
-    private Integer duration;
-
     @Lob
     @Column(name = "note")
     private String note;
@@ -60,7 +54,6 @@ public class CleaningAction {
     @OneToMany(mappedBy = "cleaningActions")
     @JsonManagedReference(value = "cleaningAction-picture")
     private List<File> pictures;
-
 
     @OneToOne
     @JoinColumn(name = "feedback_id")

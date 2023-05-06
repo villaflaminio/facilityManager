@@ -2,6 +2,7 @@ package it.bruffa.facilitymanager.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -46,6 +47,7 @@ public class Quote {
 
     @Column(name = "time")
     @Min(1)
+    @Schema(description = "Time in days")
     private Integer time;
 
     @OneToOne

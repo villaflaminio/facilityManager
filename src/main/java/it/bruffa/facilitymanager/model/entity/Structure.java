@@ -3,6 +3,8 @@ package it.bruffa.facilitymanager.model.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -63,6 +65,11 @@ public class Structure {
     @Column(name = "is_active")
     private Boolean isActive;
 
+
+    @Column(name = "cleaning_duration")
+    @Max(24)
+    @Min(1)
+    private Integer cleaningDuration;
 
     @OneToOne
     @JoinColumn(name = "gate_id")

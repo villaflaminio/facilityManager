@@ -47,6 +47,14 @@ public class User  extends DateAudit {
     private String password;
 
 
+    @NotNull
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @NotNull
+    @Column(name = "longitude")
+    private Double longitude;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",

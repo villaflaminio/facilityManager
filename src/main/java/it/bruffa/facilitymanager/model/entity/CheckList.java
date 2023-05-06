@@ -38,7 +38,6 @@ public class CheckList {
     @Column(name = "items")
     private List<String> items;
 
-
     @OneToMany(mappedBy = "checkList")
     @JsonBackReference(value = "checkList-cleaningAction")
     private List<CleaningAction> cleaningAction;
