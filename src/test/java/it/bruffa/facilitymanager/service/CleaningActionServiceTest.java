@@ -5,6 +5,7 @@ import it.bruffa.facilitymanager.model.entity.*;
 import it.bruffa.facilitymanager.repository.*;
 import it.bruffa.facilitymanager.service.impl.CleaningActionServiceImpl;
 import it.bruffa.facilitymanager.service.impl.ReservationServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -118,19 +121,19 @@ public class CleaningActionServiceTest {
         structure1.setAddress("Via Giovanni Martinotti, 20, 00135 Roma RM");
         structure1.setLatitude(41.952405105333355);
         structure1.setLongitude(12.415838231732067);
-        structure1.setName("Ospedale San Filippo Neri");
+        structure1.setName("Ospedale San Filippo Neri - 1");
         structure1.setCleaningDuration(1);
 
         structure2.setId(2L);
         structure2.setAddress("Via dei Badoer, 5, 00148 Roma RM");
-        structure2.setName("Policlinico Luigi di Liegro\n");
+        structure2.setName("Policlinico Luigi di Liegro - 2");
         structure2.setLatitude(41.85888609469103);
         structure2.setLongitude(12.427167898523873);
         structure2.setCleaningDuration(2);
 
         structure3.setId(3L);
         structure3.setAddress("Via di Grottarossa, 1035, 00189 Roma RM");
-        structure3.setName("Ospedale Sant'Andrea");
+        structure3.setName("Ospedale Sant'Andrea - 3");
         structure3.setLatitude(41.986354850396275);
         structure3.setLongitude(12.471799854884132);
         structure3.setCleaningDuration(3);
@@ -139,28 +142,28 @@ public class CleaningActionServiceTest {
         structure4.setAddress("Via Casilina, 1049, 00169 Roma RM");
         structure4.setLatitude(41.87473775030915);
         structure4.setLongitude(12.591619481973181);
-        structure4.setName("Policlinico Casilino");
+        structure4.setName("Policlinico Casilino - 4");
         structure4.setCleaningDuration(4);
 
         structure5.setId(5L);
         structure5.setAddress("Via Prenestina, 325, 00171 Roma RM");
         structure5.setLatitude(41.897741222803695);
         structure5.setLongitude(12.550764079040238);
-        structure5.setName("Villa Gordiani");
+        structure5.setName("Villa Gordiani - 5");
         structure5.setCleaningDuration(5);
 
         structure6.setId(6L);
         structure6.setAddress("00054 Fiumicino RM");
         structure6.setLatitude(41.808748560516484);
         structure6.setLongitude(12.25275994283459);
-        structure6.setName("Aeroporto internazionale Leonardo da Vinci\n");
+        structure6.setName("Aeroporto internazionale Leonardo da Vinci - 6");
         structure6.setCleaningDuration(6);
 
         structure7.setId(7L);
         structure7.setAddress("Via S. Francesco d'Assisi, 50, 00041 Albano Laziale RM");
         structure7.setLatitude(41.73280220023832);
         structure7.setLongitude(12.665194433877856);
-        structure7.setName("Castel Gandolfo");
+        structure7.setName("Castel Gandolfo - 7");
         structure7.setCleaningDuration(7);
 
         reservation1.setId(1L);
@@ -216,6 +219,38 @@ public class CleaningActionServiceTest {
 
         List<CleaningAction> cleanersTest = cleaningActionService.assignCleaningAction(checkOut);
 
+        assertEquals(7, cleanersTest.size());
+
+
+        Assertions.assertEquals(2L, cleanersTest.get(0).getUser().getId().longValue());
+        Assertions.assertEquals(1L, cleanersTest.get(0).getStructure().getId().longValue());
+        Assertions.assertEquals("Ospedale San Filippo Neri - 1", cleanersTest.get(0).getStructure().getName());
+
+
+        Assertions.assertEquals(1L, cleanersTest.get(1).getUser().getId().longValue());
+        Assertions.assertEquals(2L, cleanersTest.get(1).getStructure().getId().longValue());
+        Assertions.assertEquals("Policlinico Luigi di Liegro - 2", cleanersTest.get(1).getStructure().getName());
+
+        Assertions.assertEquals(3L, cleanersTest.get(2).getUser().getId().longValue());
+        Assertions.assertEquals(3L, cleanersTest.get(2).getStructure().getId().longValue());
+        Assertions.assertEquals("Ospedale Sant'Andrea - 3", cleanersTest.get(2).getStructure().getName());
+
+        Assertions.assertEquals(4L, cleanersTest.get(3).getUser().getId().longValue());
+        Assertions.assertEquals(4L, cleanersTest.get(3).getStructure().getId().longValue());
+        Assertions.assertEquals("Policlinico Casilino - 4", cleanersTest.get(3).getStructure().getName());
+
+
+        Assertions.assertEquals(3L, cleanersTest.get(4).getUser().getId().longValue());
+        Assertions.assertEquals(5L, cleanersTest.get(4).getStructure().getId().longValue());
+        Assertions.assertEquals("Villa Gordiani - 5", cleanersTest.get(4).getStructure().getName());
+
+        Assertions.assertEquals(4L, cleanersTest.get(5).getUser().getId().longValue());
+        Assertions.assertEquals(6L, cleanersTest.get(5).getStructure().getId().longValue());
+        Assertions.assertEquals("Aeroporto internazionale Leonardo da Vinci - 6", cleanersTest.get(5).getStructure().getName());
+
+        Assertions.assertEquals(1L, cleanersTest.get(6).getUser().getId().longValue());
+        Assertions.assertEquals(7L, cleanersTest.get(6).getStructure().getId().longValue());
+        Assertions.assertEquals("Castel Gandolfo - 7", cleanersTest.get(6).getStructure().getName());
     }
 
 }
