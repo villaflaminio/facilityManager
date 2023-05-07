@@ -17,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "cleaning_action")
-@Builder
 public class CleaningAction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,4 +57,8 @@ public class CleaningAction {
     @JsonManagedReference(value = "feedback-cleaningAction")
     private Feedback feedback;
 
+    @Column(name = "cleaning_duration")
+    @Max(24)
+    @Min(1)
+    private Integer cleaningDuration;
 }

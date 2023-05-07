@@ -1,6 +1,7 @@
 package it.bruffa.facilitymanager.repository;
 
 import it.bruffa.facilitymanager.model.entity.CheckList;
+import it.bruffa.facilitymanager.model.projection.CleaningActionInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
