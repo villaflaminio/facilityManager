@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public interface AccessLogController {
 
 
-    @Operation(summary = "filter", description = "Filter AccessLog", tags = {"idea"})
+    @Operation(summary = "filter", description = "Filter AccessLog", tags = {"AccessLog"})
     @PostMapping("/filter")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),

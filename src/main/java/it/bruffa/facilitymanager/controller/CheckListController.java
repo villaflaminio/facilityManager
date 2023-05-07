@@ -30,14 +30,14 @@ public interface CheckListController {
     ResponseEntity<CheckList> getCheckListById(@PathVariable @Schema(example = "1") Long checkListId) throws ItemNotFoundException;
 
     @Operation(summary = "Get checkList by name", description = "Get checkList by name", tags = {"checkList"})
-    @GetMapping("/{checkListName}")
+    @GetMapping("/name/{checkListName}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<CheckList> getCheckListByName(@PathVariable @Schema(example = "") String checkListName) throws ItemNotFoundException;
+    ResponseEntity<CheckList> getCheckListByName(@PathVariable @Schema(example = "name") String checkListName) throws ItemNotFoundException;
 
     @Operation(summary = "Create checkList", description = "Create checkList", tags = {"checkList"})
     @PostMapping
@@ -68,7 +68,4 @@ public interface CheckListController {
                             schema = @Schema(implementation = ApiError.class))}),
     })
     ResponseEntity<Boolean> deleteCheckList(@PathVariable @Schema(example = "1") Long checkListId) throws ItemNotFoundException;
-
-
-
 }
