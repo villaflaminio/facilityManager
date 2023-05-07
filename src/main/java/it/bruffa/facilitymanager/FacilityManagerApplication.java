@@ -13,19 +13,9 @@ import org.springframework.core.task.TaskExecutor;
 @OpenAPIDefinition(info = @Info(title = "FacilityManagerApplication", version = "2.0", description = "FacilityManager Application"))
 
 public class FacilityManagerApplication {
-    @Autowired
-    Runnable MessageListener;
 
     public static void main(String[] args) {
         SpringApplication.run(FacilityManagerApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner schedulingRunner(TaskExecutor executor) {
-        return new CommandLineRunner() {
-            public void run(String... args) throws Exception {
-                executor.execute(MessageListener);
-            }
-        };
-    }
 }

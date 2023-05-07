@@ -10,7 +10,6 @@ import it.bruffa.facilitymanager.model.entity.UserPrincipal;
 import it.bruffa.facilitymanager.model.projection.UserMeInfo;
 import it.bruffa.facilitymanager.security.CurrentUser;
 import it.bruffa.facilitymanager.service.AuthService;
-import it.bruffa.facilitymanager.utilities.mqtt.MqttPublisherImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -29,8 +28,6 @@ public class AuthControllerImpl implements AuthController {
 
     @Autowired
     private AuthService authService;
-@Autowired
-private MqttPublisherImpl mqttPublisher;
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid LoginDto loginDto) {
@@ -84,12 +81,6 @@ private MqttPublisherImpl mqttPublisher;
     }
 
 
-    //send mqtt message
-    @GetMapping("/sendMqttMessage")
-    public ResponseEntity<?> sendMqttMessage() throws Exception {
-        mqttPublisher.publishMessage("test/facilitymanager/edobruffa", "test");
-        return ResponseEntity.ok().build();
-    }
 
 }
 
