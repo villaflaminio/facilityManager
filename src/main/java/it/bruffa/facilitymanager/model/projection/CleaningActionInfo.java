@@ -55,7 +55,7 @@ public interface CleaningActionInfo {
 
         Double getLongitude();
 
-        Boolean isEnable();
+        Boolean getEnable();
     }
 
     /**
@@ -82,7 +82,7 @@ public interface CleaningActionInfo {
 
         String getDescription();
 
-        Boolean isIsActive();
+        Boolean getIsActive();
 
         Integer getCleaningDuration();
     }

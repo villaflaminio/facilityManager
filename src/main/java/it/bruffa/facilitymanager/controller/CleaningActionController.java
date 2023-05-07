@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import it.bruffa.facilitymanager.model.dto.CleaningActionFilter;
 import it.bruffa.facilitymanager.model.dto.CreateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.dto.UpdateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.entity.CleaningAction;
@@ -33,8 +34,8 @@ public interface CleaningActionController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<Page<CleaningActionInfo>> filter(
-            @RequestBody(required = false) CleaningAction probe,
+    ResponseEntity<Page<CleaningAction>> filter(
+            @RequestBody(required = false) CleaningActionFilter probe,
             @RequestParam(required = false, defaultValue = "0", name = "page") Integer page,
             @RequestParam(required = false, defaultValue = "10", name = "size") Integer size,
             @RequestParam(required = false, name = "sortField") String sortField,

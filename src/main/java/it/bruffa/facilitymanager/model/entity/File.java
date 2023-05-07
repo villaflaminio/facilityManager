@@ -23,8 +23,8 @@ public class File {
     private String type;
 
     @Lob
-    @Column(name = "imagedata")
-    private byte[] imageData;
+    @Column(name = "data", columnDefinition = "LONGBLOB")
+    private byte[] data;
 
 
     @ManyToOne()
@@ -48,7 +48,7 @@ public class File {
         this.id = id;
         this.name = fileName;
         this.type = contentType;
-        this.imageData = bytes;
+        this.data = bytes;
     }
 
     public Long getId() {
@@ -69,19 +69,15 @@ public class File {
     public void setType(String type) {
         this.type = type;
     }
-    public byte[] getImageData() {
-        return imageData;
+    public byte[] getData() {
+        return data;
     }
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
+    public void setData(byte[] data) {
+        this.data = data;
     }
-
-
-
     public CleaningAction getCleaningActions() {
         return cleaningActions;
     }
-
     public void setCleaningActions(CleaningAction cleaningActions) {
         this.cleaningActions = cleaningActions;
     }

@@ -1,8 +1,8 @@
 package it.bruffa.facilitymanager.service.impl;
 
-import it.bruffa.facilitymanager.model.builder.CheckListBuilder;
 import it.bruffa.facilitymanager.model.builder.CleaningActionBuilder;
 import it.bruffa.facilitymanager.model.builder.FileBuilder;
+import it.bruffa.facilitymanager.model.dto.CleaningActionFilter;
 import it.bruffa.facilitymanager.model.dto.CreateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.dto.UpdateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.entity.*;
@@ -53,12 +53,23 @@ public class CleaningActionServiceImpl implements CleaningActionService {
     private static final Logger logger = LoggerFactory.getLogger(CleaningActionServiceImpl.class);
 
     @Override
-    public ResponseEntity<Page<CleaningActionInfo>> filter(CleaningAction probe, Integer page, Integer size, String sortField, String sortDirection) {
+    public ResponseEntity<Page<CleaningAction>> filter(CleaningActionFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         Pageable pageable;
 
-        if (probe == null) {
-            probe = new CleaningAction();
-        }
+        CleaningAction filter = new CleaningAction();
+
+        if(probe.getUserId() != null)
+            filter.setUser(userRepository.findById(probe.getUserId()).orElseThrow(() -> new RuntimeException("User not found")));
+
+        if(probe.getStructureId() != null)
+            filter.setStructure(structureRepository.findById(probe.getStructureId()).orElseThrow(() -> new RuntimeException("Structure not found")));
+
+        if(probe.getCheckListId() != null)
+            filter.setCheckList(checkListRepository.findById(probe.getCheckListId()).orElseThrow(() -> new RuntimeException("CheckList not found")));
+
+        PropertiesHelper.copyNonNullProperties(probe, filter);
+
+
 
         if (StringUtils.isEmpty(sortField)) {
             pageable = PageRequest.of(page, size);
@@ -68,16 +79,16 @@ public class CleaningActionServiceImpl implements CleaningActionService {
             pageable = PageRequest.of(page, size, dir, sortField);
         }
 
-        ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.STARTING);
-        Example<CleaningAction> example = Example.of(probe, matcher);
+        ExampleMatcher matcher = ExampleMatcher.matchingAll().withIgnoreCase().withIgnoreNullValues().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<CleaningAction> example = Example.of(filter, matcher);
 
-        return ResponseEntity.ok(cleaningActionRepository.findAllProjected(example, pageable));
+        return ResponseEntity.ok(cleaningActionRepository.findAll(example, pageable));
     }
 
     @Override
     public ResponseEntity<CleaningActionInfo> getCleaningActionById(Long cleaningActionId) {
         logger.info("getCleaningActionById() called with id: {}", cleaningActionId);
-        CleaningActionInfo action = cleaningActionRepository.findProjectedById(cleaningActionId).orElseThrow(() -> new RuntimeException("CleaningAction not found"));
+        CleaningActionInfo action = cleaningActionRepository.findCleaningActionInfoById(cleaningActionId).orElseThrow(() -> new RuntimeException("CleaningAction not found"));
         return ResponseEntity.ok(action);
     }
 
@@ -207,7 +218,7 @@ public class CleaningActionServiceImpl implements CleaningActionService {
                     dbFile.getName(),
                     fileDownloadUri,
                     dbFile.getType(),
-                    dbFile.getImageData().length);
+                    dbFile.getData().length);
         }).collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK).body(files);

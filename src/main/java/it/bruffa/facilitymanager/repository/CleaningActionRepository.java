@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface CleaningActionRepository extends JpaRepository<CleaningAction, Long> {
-    Page<CleaningActionInfo> findAllProjected(Example<CleaningAction> example, Pageable pageable);
-    Optional<CleaningActionInfo> findProjectedById(Long cleaningActionId);
+//    Page<CleaningAction> findAll(Example<CleaningAction> example, Pageable pageable);
+    Optional<CleaningActionInfo> findCleaningActionInfoById(Long id);
 
 }

@@ -61,7 +61,7 @@ public final class FileBuilder {
         file.setId(id);
         file.setName(name);
         file.setType(type);
-        file.setImageData(imageData);
+        file.setData(imageData);
         file.setCleaningActions(cleaningActions);
         file.setMaintenance(maintenance);
         file.setQuote(quote);

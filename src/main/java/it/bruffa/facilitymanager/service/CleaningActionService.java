@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.service;
 
+import it.bruffa.facilitymanager.model.dto.CleaningActionFilter;
 import it.bruffa.facilitymanager.model.dto.CreateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.dto.UpdateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.entity.CleaningAction;
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface CleaningActionService {
-    ResponseEntity<Page<CleaningActionInfo>> filter(CleaningAction probe, Integer page, Integer size, String sortField, String sortDirection);
+    ResponseEntity<Page<CleaningAction>> filter(CleaningActionFilter probe, Integer page, Integer size, String sortField, String sortDirection);
 
     ResponseEntity<CleaningActionInfo> getCleaningActionById(Long cleaningActionId);
 

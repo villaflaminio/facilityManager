@@ -1,6 +1,7 @@
 package it.bruffa.facilitymanager.controller.impl;
 
 import it.bruffa.facilitymanager.controller.CleaningActionController;
+import it.bruffa.facilitymanager.model.dto.CleaningActionFilter;
 import it.bruffa.facilitymanager.model.dto.CreateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.dto.UpdateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.entity.CleaningAction;
@@ -22,7 +23,7 @@ public class CleaningActionControllerImpl implements CleaningActionController {
     private CleaningActionService cleaningActionService;
 
     @Override
-    public ResponseEntity<Page<CleaningActionInfo>> filter(CleaningAction probe, Integer page, Integer size, String sortField, String sortDirection) {
+    public ResponseEntity<Page<CleaningAction>> filter(CleaningActionFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         return cleaningActionService.filter(probe, page, size, sortField, sortDirection);
     }
 
