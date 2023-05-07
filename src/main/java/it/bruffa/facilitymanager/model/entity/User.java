@@ -1,9 +1,6 @@
 package it.bruffa.facilitymanager.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import it.bruffa.facilitymanager.model.modelbase.DateAudit;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -94,6 +91,11 @@ public class User extends DateAudit {
             inverseJoinColumns = @JoinColumn(name = "quote_id"))
     @JsonManagedReference(value = "user-quote")
     private Quote quote;
+
+    @OneToMany(orphanRemoval = true)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "user-accessLog")
+    private List<AccessLog> accessLogs = new ArrayList<>();
 
 
     /**

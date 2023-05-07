@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -16,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Data
 @Table(name = "gate")
 public class Gate {
 
@@ -40,7 +38,7 @@ public class Gate {
     @Column(name = "mqtt_topic")
     private String mqttTopic;
 
-    @OneToOne(mappedBy = "gate", optional = false)
+    @OneToOne(mappedBy = "gate")
     @JsonBackReference(value = "gate-structure")
     private Structure structure;
 

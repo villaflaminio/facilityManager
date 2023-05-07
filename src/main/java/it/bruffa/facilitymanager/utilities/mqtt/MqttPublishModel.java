@@ -4,6 +4,7 @@ package it.bruffa.facilitymanager.utilities.mqtt;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+
 public class MqttPublishModel {
 
     @NotNull

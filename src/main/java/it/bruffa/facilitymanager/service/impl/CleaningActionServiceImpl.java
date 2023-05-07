@@ -101,7 +101,7 @@ public class CleaningActionServiceImpl implements CleaningActionService {
             Structure structure = structureRepository.findById(createCleaningActionRequest.getStructureId()).orElseThrow(() -> new RuntimeException("Structure not found"));
 
 
-            CleaningAction newclean = CleaningActionBuilder.builder()
+            CleaningAction newClean = CleaningActionBuilder.builder()
                     .checkList(checkList)
                     .user(userCleaner)
                     .structure(structure)
@@ -111,7 +111,7 @@ public class CleaningActionServiceImpl implements CleaningActionService {
                     .cleaningDuration(createCleaningActionRequest.getCleaningDuration() != 0 ? createCleaningActionRequest.getCleaningDuration() : structure.getCleaningDuration())
                     .build();
 
-            return ResponseEntity.ok(cleaningActionRepository.save(newclean));
+            return ResponseEntity.ok(cleaningActionRepository.save(newClean));
 
         } catch (Exception e) {
             logger.error("Error in createCleaningAction() method: {}", e.getMessage());
