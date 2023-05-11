@@ -3,6 +3,7 @@ package it.bruffa.facilitymanager.controller.impl;
 import it.bruffa.facilitymanager.controller.StructureController;
 import it.bruffa.facilitymanager.model.dto.StructureFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateStructureRequest;
+import it.bruffa.facilitymanager.model.entity.Reservation;
 import it.bruffa.facilitymanager.model.entity.Structure;
 import it.bruffa.facilitymanager.model.exception.ItemNotFoundException;
 import it.bruffa.facilitymanager.model.projection.StructureIdInfo;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -36,8 +38,8 @@ public class StructureControllerImpl implements StructureController {
     }
 
     @Override
-    public ResponseEntity<List<String>> getAvailableDay(Long structureId) throws ItemNotFoundException {
-        return structureService.getAvailableDay(structureId);
+    public ResponseEntity<List<Reservation>> getReservationsBetweenDatesAndStructure(LocalDate startDate, LocalDate endDate, Long structureId) throws ItemNotFoundException {
+        return structureService.getReservationsBetweenDatesAndStructure( startDate,  endDate, structureId);
     }
 
     @Override

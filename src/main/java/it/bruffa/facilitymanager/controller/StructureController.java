@@ -6,10 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import it.bruffa.facilitymanager.model.dto.CreateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.dto.StructureFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateStructureRequest;
-import it.bruffa.facilitymanager.model.entity.CleaningAction;
+import it.bruffa.facilitymanager.model.entity.Reservation;
 import it.bruffa.facilitymanager.model.entity.Structure;
 import it.bruffa.facilitymanager.model.exception.ApiError;
 import it.bruffa.facilitymanager.model.exception.ItemNotFoundException;
@@ -20,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -64,15 +64,15 @@ public interface StructureController {
     ResponseEntity<List<StructureIdInfo>> getStructuresList() throws ItemNotFoundException;
 
 
-    @Operation(summary = "Get available day", description = "Get available day", tags = {"structure"})
-    @GetMapping("/{structureId}/availableDay")
+    @Operation(summary = "getReservationsBetweenDatesAndStructure", description = "Get reservations", tags = {"structure"})
+    @GetMapping("/{structureId}/busyDates")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
             @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<List<String>> getAvailableDay(@PathVariable @Schema(example = "1") Long structureId) throws ItemNotFoundException;
+    ResponseEntity<List<Reservation>> getReservationsBetweenDatesAndStructure(@RequestParam @Schema(example = "2021-05-11") LocalDate startDate,@RequestParam @Schema(example = "2023-05-11") LocalDate endDate, @PathVariable @Schema(example = "1") Long structureId);
 
     @Operation(summary = "Create structure", description = "Create structure", tags = {"structure"})
     @PostMapping

@@ -27,7 +27,7 @@ public interface StructureInfo {
 
     String getDescription();
 
-    Boolean isIsActive();
+    Boolean getIsActive();
 
     Integer getCleaningDuration();
 
