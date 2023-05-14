@@ -1,11 +1,74 @@
 package it.bruffa.facilitymanager.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import it.bruffa.facilitymanager.model.dto.ReservationFilter;
+import it.bruffa.facilitymanager.model.dto.StructureFilter;
+import it.bruffa.facilitymanager.model.dto.request.CreateReservationRequest;
+import it.bruffa.facilitymanager.model.entity.Reservation;
+import it.bruffa.facilitymanager.model.entity.Structure;
+import it.bruffa.facilitymanager.model.exception.ApiError;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/reservation")
 @Tag(name = "ReservationController", description = "The reservation APIs")
 public interface ReservationController {
+
+    @Operation(summary = "filter", description = "Filter Reservation", tags = {"structure"})
+    @PostMapping("/filter")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "500", description = "Error not found - EmptyArray Exception",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+    })
+    ResponseEntity<Page<Reservation>> filter(
+            @RequestBody(required = false) ReservationFilter probe,
+            @RequestParam(required = false, defaultValue = "0", name = "page") Integer page,
+            @RequestParam(required = false, defaultValue = "10", name = "size") Integer size,
+            @RequestParam(required = false, name = "sortField") String sortField,
+            @RequestParam(required = false, name = "sortDirection") String sortDirection);
+
+
+    @Operation(summary = "Get reservation by id", description = "Get reservation by id", tags = {"structure"})
+    @GetMapping("/{reservationId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+    })
+    ResponseEntity<Reservation> getReservationById(@PathVariable @Schema(example = "1") Long reservationId);
+
+    @Operation(summary = "Create reservation", description = "Create reservation", tags = {"structure"})
+    @PostMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successfully created"),
+            @ApiResponse(responseCode = "400", description = "Bad request - The request was invalid or cannot be served",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+    })
+    ResponseEntity<Reservation> createReservation(@RequestBody CreateReservationRequest createReservationRequest);
+
+
+    //delete
+    @Operation(summary = "Delete reservation", description = "Delete reservation", tags = {"structure"})
+    @DeleteMapping("/{reservationId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+    })
+    ResponseEntity<Boolean> deleteReservation(@PathVariable @Schema(example = "1") Long reservationId);
+
 }
+
+
