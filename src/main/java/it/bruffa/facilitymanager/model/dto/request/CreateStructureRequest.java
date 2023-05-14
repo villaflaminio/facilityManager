@@ -22,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CreateStructureRequest {
     @NotNull
-    @Schema(description = "Name of the structure", example = "Villa Bruffa")
+    @Schema(description = "Name of the structure", example = "Home Bruffa")
     private String name;
 
     @NotNull
@@ -53,7 +53,7 @@ public class CreateStructureRequest {
     @Schema(description = "Longitude of the structure", example = "12.4818")
     private Double longitude;
 
-    @Schema(description = "Description of the structure", example = "Villa Bruffa is a beautiful villa")
+    @Schema(description = "Description of the structure", example = "Home Bruffa is a beautiful place")
     private String description;
 
     @NotNull
@@ -66,4 +66,20 @@ public class CreateStructureRequest {
     @Schema(description = "Duration of the cleaning action", example = "2")
     private Integer cleaningDuration;
 
+    @Override
+    public String toString() {
+        return "CreateStructureRequest{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", cap='" + cap + '\'' +
+                ", province='" + province + '\'' +
+                ", country='" + country + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", description='" + description + '\'' +
+                ", isActive=" + isActive +
+                ", cleaningDuration=" + cleaningDuration +
+                '}';
+    }
 }

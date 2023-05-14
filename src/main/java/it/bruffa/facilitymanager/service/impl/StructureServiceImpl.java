@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -79,11 +80,11 @@ public class StructureServiceImpl implements StructureService {
 
             Structure filter = new Structure();
 
-            if (probe.getGateId() != null)
+            if (probe.getGateId() != null && gateRepository.existsById(probe.getGateId()))
                 filter.setGate(gateRepository.findById(probe.getGateId()).orElseThrow(() -> new RuntimeException("Gate not found")));
 
 
-            if (probe.getQuoteId() != null)
+            if (probe.getQuoteId() != null && quoteRepository.existsById(probe.getQuoteId()))
                 filter.setQuote(quoteRepository.findById(probe.getQuoteId()).orElseThrow(() -> new RuntimeException("Quote not found")));
 
             PropertiesHelper.copyNonNullProperties(probe, filter);
@@ -146,11 +147,29 @@ public class StructureServiceImpl implements StructureService {
 
     @Override
     public ResponseEntity<Structure> updateStructure(Long structureId, CreateStructureRequest structureRequest) {
-        return null;
+        try {
+            logger.debug("Enter into  StructureServiceImpl.updateStructure : Parameters : {}, {}", structureId, structureRequest);
+            Structure structure = structureRepository.findById(structureId).orElseThrow(() -> new RuntimeException("Structure not found"));
+            PropertiesHelper.copyNonNullProperties(structureRequest, structure);
+
+            return ResponseEntity.ok(structureRepository.save(structure));
+
+        } catch (Exception e) {
+            logger.error("Error in StructureServiceImpl.updateStructure : {}", e);
+            throw e;
+        }
     }
 
     @Override
     public ResponseEntity<Boolean> deleteStructure(Long structureId) {
-        return null;
+        try{
+            logger.debug("Enter into  StructureServiceImpl.deleteStructure : Parameters : {}", structureId);
+            Structure structure = structureRepository.findById(structureId).orElseThrow(() -> new RuntimeException("Structure not found"));
+            structureRepository.delete(structure);
+            return ResponseEntity.ok(true);
+        } catch (Exception e) {
+            logger.error("Error in StructureServiceImpl.deleteStructure : {}", e);
+            throw e;
+        }
     }
 }
