@@ -4,6 +4,7 @@ import it.bruffa.facilitymanager.controller.AuthController;
 import it.bruffa.facilitymanager.model.dto.AuthResponseDTO;
 import it.bruffa.facilitymanager.model.dto.LoginDto;
 import it.bruffa.facilitymanager.model.dto.TokenRefreshResponseDto;
+import it.bruffa.facilitymanager.model.dto.request.RegisterUserRequestDto;
 import it.bruffa.facilitymanager.model.dto.request.SignUpRequestDto;
 import it.bruffa.facilitymanager.model.entity.User;
 import it.bruffa.facilitymanager.model.entity.UserPrincipal;
@@ -50,8 +51,13 @@ public class AuthControllerImpl implements AuthController {
         return authService.getCurrentUser(userPrincipal);
     }
     @Override
-    public ResponseEntity<User> registerUser(SignUpRequestDto signUpRequestDto) throws Exception {
-        return authService.registerUser(signUpRequestDto);
+    public ResponseEntity<User> signup(SignUpRequestDto signUpRequestDto) throws Exception {
+        return authService.signup(signUpRequestDto);
+    }
+
+    @Override
+    public ResponseEntity<User> registerUser(RegisterUserRequestDto registerUser) throws Exception {
+        return  authService.registerUser(registerUser);
     }
 
     @Override

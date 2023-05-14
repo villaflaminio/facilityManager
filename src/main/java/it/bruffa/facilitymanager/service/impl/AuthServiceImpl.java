@@ -3,6 +3,7 @@ package it.bruffa.facilitymanager.service.impl;
 import it.bruffa.facilitymanager.model.dto.AuthResponseDTO;
 import it.bruffa.facilitymanager.model.dto.LoginDto;
 import it.bruffa.facilitymanager.model.dto.TokenRefreshResponseDto;
+import it.bruffa.facilitymanager.model.dto.request.RegisterUserRequestDto;
 import it.bruffa.facilitymanager.model.dto.request.SignUpRequestDto;
 import it.bruffa.facilitymanager.model.entity.*;
 import it.bruffa.facilitymanager.model.exception.ExpiredJwtException;
@@ -16,6 +17,7 @@ import it.bruffa.facilitymanager.repository.UserRepository;
 import it.bruffa.facilitymanager.security.CustomAuthenticationManager;
 import it.bruffa.facilitymanager.security.JwtUtility;
 import it.bruffa.facilitymanager.service.AuthService;
+import it.bruffa.facilitymanager.service.UserService;
 import it.bruffa.facilitymanager.utilities.PropertiesHelper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,6 +48,8 @@ public class AuthServiceImpl implements AuthService {
     private PasswordResetTokenRepository passwordResetTokenRepository;
     @Autowired
     private JwtUtility tokenProvider;
+    @Autowired
+    private UserService userService;
 
     private final CustomAuthenticationManager authenticationManager;
     private final JwtUtility jwtUtility;
@@ -98,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<User> registerUser(SignUpRequestDto signUpRequestDto) throws Exception {
+    public ResponseEntity<User> signup(SignUpRequestDto signUpRequestDto) throws Exception {
         // Check if the email is already in use.
         if (userRepository.existsByEmail(signUpRequestDto.getEmail()))
             throw new Exception("Email is already in use!");
@@ -206,15 +210,14 @@ public class AuthServiceImpl implements AuthService {
         user.setAccountNonLocked(true);
         user.setAccountNonExpired(true);
         user.setCredentialExpired(false);
+        user.setLatitude(0.0);
+        user.setLongitude(0.0);
         user.setEnable(true);
 
-
-
-        // Save the user in the database.
         try {
             userRepository.save(user);
         } catch (Exception e) {
-            throw new InvalidCredentialsException("User already present!");
+            throw e;
 
         }
         return ResponseEntity.ok(user);
@@ -263,6 +266,41 @@ public class AuthServiceImpl implements AuthService {
             new SecurityContextLogoutHandler().logout(request, response, authentication); // <= This is the call you are looking for.
         }
         return ResponseEntity.ok(true);
+    }
+
+    @Override
+    public ResponseEntity<User> registerUser(RegisterUserRequestDto registerUser) throws Exception {
+        // Check if the email is already in use.
+        if (userRepository.existsByEmail(registerUser.getEmail()))
+            throw new Exception("Email is already in use!");
+
+        // Trying to find the role with the given name, if not found a bad request exception will be thrown.
+        Role role = roleRepository.findByName(registerUser.getRole()).orElseThrow(() -> new ItemNotFoundException("Role not found"));
+        // Create the collection to store all the roles.
+        ArrayList<Role> roles = new ArrayList<>();
+        roles.add(role);
+
+        // Creating user's account
+        User user = new User();
+
+        user.setFirstName(registerUser.getFirstName());
+        user.setLastName(registerUser.getLastName());
+        user.setEmail(registerUser.getEmail());
+        user.setLatitude(registerUser.getLatitude());
+        user.setLongitude(registerUser.getLongitude());
+        user.setRoles(roles);
+        user.setEnable(true);
+        user.setAccountNonLocked(true);
+        user.setAccountNonExpired(true);
+        user.setCredentialExpired(false);
+
+        // Save the user in the database.
+        User result = userRepository.save(user);
+
+        userService.requestResetPassword(result);
+        // Return the created user.
+        return ResponseEntity.ok(result);
+
     }
 
     /**

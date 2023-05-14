@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.service;
 
+import it.bruffa.facilitymanager.model.dto.MailResponse;
 import it.bruffa.facilitymanager.model.dto.request.ChangePassworRequest;
 import it.bruffa.facilitymanager.model.entity.User;
 import it.bruffa.facilitymanager.model.entity.UserPrincipal;
@@ -17,5 +18,7 @@ public interface UserService {
     Object recoveryPassword(String userEmail);
 
     UserDetailInfo getUserById(Long userId);
+
+    MailResponse requestResetPassword(User user);
 
 }

@@ -26,13 +26,13 @@ public interface UserDetailInfo {
 
     String getPassword();
 
-    Boolean isEnable();
+    Boolean getEnable();
 
-    Boolean isCredentialExpired();
+    Boolean getCredentialExpired();
 
-    Boolean isAccountNonExpired();
+    Boolean getAccountNonExpired();
 
-    Boolean isAccountNonLocked();
+    Boolean getAccountNonLocked();
 
     Collection<RoleInfo> getRoles();
 

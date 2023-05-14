@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
 
         // Save the user.
         User updatedUser = userRepository.save(user);
+        updatedUser.setPassword(null);
         return updatedUser;
     }
 

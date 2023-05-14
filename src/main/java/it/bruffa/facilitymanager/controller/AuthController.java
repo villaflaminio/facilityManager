@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.bruffa.facilitymanager.model.dto.AuthResponseDTO;
 import it.bruffa.facilitymanager.model.dto.LoginDto;
 import it.bruffa.facilitymanager.model.dto.TokenRefreshResponseDto;
+import it.bruffa.facilitymanager.model.dto.request.RegisterUserRequestDto;
 import it.bruffa.facilitymanager.model.dto.request.SignUpRequestDto;
 import it.bruffa.facilitymanager.model.entity.User;
 import it.bruffa.facilitymanager.model.exception.ApiError;
@@ -35,8 +36,11 @@ public interface AuthController{
     //sign up
     @Operation(summary = "Sign up", description = "Sign up", tags = {"auth"})
     @PostMapping("/signup")
-    ResponseEntity<User> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequestDto) throws Exception;
+    ResponseEntity<User> signup(@Valid @RequestBody SignUpRequestDto signUpRequestDto) throws Exception;
 
+    @Operation(summary = "Sign up from admin", description = "Sign up", tags = {"auth"})
+    @PostMapping("/registerUser")
+    ResponseEntity<User> registerUser(@Valid @RequestBody RegisterUserRequestDto registerUser) throws Exception;
 
     @Operation(summary = "Logout", description = "Logout", tags = {"auth"})
     @PostMapping("/logout")

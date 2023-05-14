@@ -3,6 +3,7 @@ package it.bruffa.facilitymanager.service;
 import it.bruffa.facilitymanager.model.dto.AuthResponseDTO;
 import it.bruffa.facilitymanager.model.dto.LoginDto;
 import it.bruffa.facilitymanager.model.dto.TokenRefreshResponseDto;
+import it.bruffa.facilitymanager.model.dto.request.RegisterUserRequestDto;
 import it.bruffa.facilitymanager.model.dto.request.SignUpRequestDto;
 import it.bruffa.facilitymanager.model.entity.User;
 import it.bruffa.facilitymanager.model.entity.UserPrincipal;
@@ -14,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 public interface AuthService {
     ResponseEntity<AuthResponseDTO> login(LoginDto loginDto);
 
-    ResponseEntity<User> registerUser(SignUpRequestDto signUpRequestDto) throws Exception;
+    ResponseEntity<User> signup(SignUpRequestDto signUpRequestDto) throws Exception;
 
 
     ResponseEntity<TokenRefreshResponseDto> refreshtoken(String refreshToken) throws Exception;
@@ -26,4 +27,6 @@ public interface AuthService {
     ResponseEntity<?> getAuthenticationToChangePassword(String token);
 
     ResponseEntity<Boolean> logout(HttpServletRequest request, HttpServletResponse response);
+
+    ResponseEntity<User> registerUser(RegisterUserRequestDto registerUser) throws Exception;
 }
