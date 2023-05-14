@@ -1,7 +1,9 @@
 package it.bruffa.facilitymanager.controller.impl;
 
 import it.bruffa.facilitymanager.controller.MaintenanceController;
+import it.bruffa.facilitymanager.model.dto.MaintenanceFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateMaintenanceRequest;
+import it.bruffa.facilitymanager.model.dto.request.UpdateMaintenanceRequest;
 import it.bruffa.facilitymanager.model.entity.Maintenance;
 import it.bruffa.facilitymanager.model.exception.ItemNotFoundException;
 import it.bruffa.facilitymanager.service.MaintenanceService;
@@ -20,7 +22,7 @@ public class MaintenanceControllerImpl implements MaintenanceController {
     private MaintenanceService maintenanceService;
 
     @Override
-    public ResponseEntity<Page<Maintenance>> filter(Maintenance probe, Integer page, Integer size, String sortField, String sortDirection) {
+    public ResponseEntity<Page<Maintenance>> filter(MaintenanceFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         return maintenanceService.filter(probe, page, size, sortField, sortDirection);
     }
 
@@ -35,37 +37,42 @@ public class MaintenanceControllerImpl implements MaintenanceController {
     }
 
     @Override
-    public ResponseEntity<Maintenance> updateMaintenance(Long maintenanceId, CreateMaintenanceRequest modifyMaintenanceRequest) throws ItemNotFoundException {
-        return  maintenanceService.updateMaintenance(maintenanceId, modifyMaintenanceRequest);
+    public ResponseEntity<Maintenance> updateMaintenance(Long maintenanceId, UpdateMaintenanceRequest modifyMaintenanceRequest) throws ItemNotFoundException {
+        return maintenanceService.updateMaintenance(maintenanceId, modifyMaintenanceRequest);
     }
 
     @Override
-    public ResponseEntity<Maintenance> deleteMaintenance(Long maintenanceId) throws ItemNotFoundException {
-        return  maintenanceService.deleteMaintenance(maintenanceId);
+    public ResponseEntity<Boolean> deleteMaintenance(Long maintenanceId) throws ItemNotFoundException {
+        return maintenanceService.deleteMaintenance(maintenanceId);
     }
 
     @Override
-    public ResponseEntity<Maintenance> addPicture(Long maintenanceId, MultipartFile file) throws ItemNotFoundException {
-        return  maintenanceService.addPicture(maintenanceId, file);
+    public ResponseEntity<Boolean> addPicture(Long maintenanceId, MultipartFile file) throws ItemNotFoundException {
+        return maintenanceService.addPicture(maintenanceId, file);
     }
 
     @Override
-    public ResponseEntity<Boolean> deletePicture(Long maintenanceId) throws ItemNotFoundException {
-        return  maintenanceService.deletePicture(maintenanceId);
+    public ResponseEntity<Boolean> deletePicture(Long pictureId) throws ItemNotFoundException {
+        return maintenanceService.deletePicture(pictureId);
     }
 
     @Override
-    public ResponseEntity<List<ResponseFile>> getPicture(Long maintenanceId) throws ItemNotFoundException {
-        return  maintenanceService.getPicture(maintenanceId);
+    public ResponseEntity<List<ResponseFile>> getPictures(Long maintenanceId) {
+        return maintenanceService.getPictures(maintenanceId);
     }
 
     @Override
-    public ResponseEntity<Maintenance> addDocument(Long maintenanceId, MultipartFile file) throws ItemNotFoundException {
-        return  maintenanceService.addDocument(maintenanceId, file);
+    public ResponseEntity<Boolean> addDocument(Long maintenanceId, MultipartFile file) throws ItemNotFoundException {
+        return maintenanceService.addDocument(maintenanceId, file);
     }
 
     @Override
-    public ResponseEntity<Boolean> deleteDocument(Long maintenanceId) {
-        return  maintenanceService.deleteDocument(maintenanceId);
+    public ResponseEntity<List<ResponseFile>> getDocuments(Long maintenanceId) throws ItemNotFoundException {
+        return maintenanceService.getDocumentS(maintenanceId);
+    }
+
+    @Override
+    public ResponseEntity<Boolean> deleteDocument(Long documentId) throws Exception {
+        return maintenanceService.deleteDocument(documentId);
     }
 }

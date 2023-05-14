@@ -1,6 +1,7 @@
 package it.bruffa.facilitymanager.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -56,14 +57,12 @@ public class Maintenance {
 
     @OneToMany(mappedBy = "maintenance")
     @JsonManagedReference(value = "maintenance")
-    private List<File> picturesBefore;
+    @JsonIgnore
+    private List<File> pictures;
 
     @OneToMany(mappedBy = "maintenance")
     @JsonManagedReference(value = "maintenance")
-    private List<File> picturesAfter;
-
-    @OneToMany(mappedBy = "maintenance")
-    @JsonManagedReference(value = "maintenance")
+    @JsonIgnore
     private List<File> documents;
 
     @Column(name = "cost")

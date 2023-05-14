@@ -1,6 +1,7 @@
 package it.bruffa.facilitymanager.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class File {
 
     @Lob
     @Column(name = "data", columnDefinition = "LONGBLOB")
+    @JsonIgnore
     private byte[] data;
 
 

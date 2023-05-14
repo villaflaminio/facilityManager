@@ -1,6 +1,8 @@
 package it.bruffa.facilitymanager.service;
 
+import it.bruffa.facilitymanager.model.dto.MaintenanceFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateMaintenanceRequest;
+import it.bruffa.facilitymanager.model.dto.request.UpdateMaintenanceRequest;
 import it.bruffa.facilitymanager.model.entity.Maintenance;
 import it.bruffa.facilitymanager.utilities.ResponseFile;
 import org.springframework.data.domain.Page;
@@ -10,23 +12,25 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface MaintenanceService {
-    ResponseEntity<Page<Maintenance>> filter(Maintenance probe, Integer page, Integer size, String sortField, String sortDirection);
+    ResponseEntity<Page<Maintenance>> filter(MaintenanceFilter probe, Integer page, Integer size, String sortField, String sortDirection);
 
     ResponseEntity<Maintenance> getMaintenanceById(Long maintenanceId);
 
     ResponseEntity<Maintenance> createMaintenance(CreateMaintenanceRequest createMaintenanceRequest);
 
-    ResponseEntity<Maintenance> updateMaintenance(Long maintenanceId, CreateMaintenanceRequest modifyMaintenanceRequest);
+    ResponseEntity<Maintenance> updateMaintenance(Long maintenanceId, UpdateMaintenanceRequest modifyMaintenanceRequest);
 
-    ResponseEntity<Maintenance> deleteMaintenance(Long maintenanceId);
+    ResponseEntity<Boolean> deleteMaintenance(Long maintenanceId);
 
-    ResponseEntity<Maintenance> addPicture(Long maintenanceId, MultipartFile file);
+    ResponseEntity<Boolean> addPicture(Long maintenanceId, MultipartFile file);
 
-    ResponseEntity<Boolean> deletePicture(Long maintenanceId);
+    ResponseEntity<Boolean> deletePicture(Long pictureId);
 
-    ResponseEntity<List<ResponseFile>> getPicture(Long maintenanceId);
+    ResponseEntity<List<ResponseFile>> getPictures(Long documentId);
 
-    ResponseEntity<Maintenance> addDocument(Long maintenanceId, MultipartFile file);
+    ResponseEntity<Boolean> addDocument(Long maintenanceId, MultipartFile file);
 
-    ResponseEntity<Boolean> deleteDocument(Long maintenanceId);
+    ResponseEntity<Boolean> deleteDocument(Long documentId) throws Exception;
+
+    ResponseEntity<List<ResponseFile>> getDocumentS(Long maintenanceId);
 }

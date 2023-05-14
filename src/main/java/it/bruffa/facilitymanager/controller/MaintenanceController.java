@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import it.bruffa.facilitymanager.model.dto.MaintenanceFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateMaintenanceRequest;
+import it.bruffa.facilitymanager.model.dto.request.UpdateMaintenanceRequest;
 import it.bruffa.facilitymanager.model.entity.Maintenance;
 import it.bruffa.facilitymanager.model.exception.ApiError;
 import it.bruffa.facilitymanager.model.exception.ItemNotFoundException;
@@ -33,7 +35,7 @@ public interface MaintenanceController {
                             schema = @Schema(implementation = ApiError.class))}),
     })
     ResponseEntity<Page<Maintenance>> filter(
-            @RequestBody(required = false) Maintenance probe,
+            @RequestBody(required = false) MaintenanceFilter probe,
             @RequestParam(required = false, defaultValue = "0", name = "page") Integer page,
             @RequestParam(required = false, defaultValue = "10", name = "size") Integer size,
             @RequestParam(required = false, name = "sortField") String sortField,
@@ -71,7 +73,7 @@ public interface MaintenanceController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<Maintenance> updateMaintenance(@PathVariable @Schema(example = "1") Long maintenanceId, @RequestBody @Valid CreateMaintenanceRequest modifyMaintenanceRequest) throws ItemNotFoundException;
+    ResponseEntity<Maintenance> updateMaintenance(@PathVariable @Schema(example = "1") Long maintenanceId, @RequestBody @Valid UpdateMaintenanceRequest modifyMaintenanceRequest) throws ItemNotFoundException;
 
     @Operation(summary = "Delete maintenance", description = "Delete maintenance", tags = {"maintenance"})
     @DeleteMapping("/{maintenanceId}")
@@ -81,7 +83,7 @@ public interface MaintenanceController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<Maintenance> deleteMaintenance(@PathVariable @Schema(example = "1") Long maintenanceId) throws ItemNotFoundException;
+    ResponseEntity<Boolean> deleteMaintenance(@PathVariable @Schema(example = "1") Long maintenanceId) throws ItemNotFoundException;
 
     @Operation(summary = "Add picture to maintenance", description = "Add picture to maintenance", tags = {"maintenance"})
     @PostMapping("/{maintenanceId}/picture")
@@ -91,18 +93,18 @@ public interface MaintenanceController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<Maintenance> addPicture(@PathVariable @Schema(example = "1") Long maintenanceId, @RequestParam("file") MultipartFile file) throws ItemNotFoundException;
+    ResponseEntity<Boolean> addPicture(@PathVariable @Schema(example = "1") Long maintenanceId, @RequestParam("file") MultipartFile file) throws ItemNotFoundException;
 
 
     @Operation(summary = "Delete picture from maintenance", description = "Delete picture from maintenance", tags = {"maintenance"})
-    @DeleteMapping("/{maintenanceId}/picture")
+    @DeleteMapping("/{pictureId}/picture")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully deleted"),
             @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<Boolean> deletePicture(@PathVariable @Schema(example = "1") Long maintenanceId) throws ItemNotFoundException;
+    ResponseEntity<Boolean> deletePicture(@PathVariable @Schema(example = "1") Long pictureId) throws ItemNotFoundException;
 
     @Operation(summary = "Get picture from maintenance", description = "Get picture from maintenance", tags = {"maintenance"})
     @GetMapping("/{maintenanceId}/picture")
@@ -112,7 +114,7 @@ public interface MaintenanceController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<List<ResponseFile>> getPicture(@PathVariable @Schema(example = "1") Long maintenanceId) throws ItemNotFoundException;
+    ResponseEntity<List<ResponseFile>> getPictures(@PathVariable @Schema(example = "1") Long maintenanceId) throws ItemNotFoundException;
 
     @Operation(summary = "Add document to maintenance", description = "Add document to maintenance", tags = {"maintenance"})
     @PostMapping("/{maintenanceId}/document")
@@ -123,15 +125,26 @@ public interface MaintenanceController {
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<Maintenance> addDocument(@PathVariable @Schema(example = "1") Long maintenanceId, @RequestParam("file") MultipartFile file) throws ItemNotFoundException;
+    ResponseEntity<Boolean> addDocument(@PathVariable @Schema(example = "1") Long maintenanceId, @RequestParam("file") MultipartFile file) throws ItemNotFoundException;
+
+
+    @Operation(summary = "Get document from maintenance", description = "Get document from maintenance", tags = {"maintenance"})
+    @GetMapping("/{maintenanceId}/document")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+    })
+    ResponseEntity<List<ResponseFile>> getDocuments(@PathVariable @Schema(example = "1") Long maintenanceId) throws ItemNotFoundException;
 
     @Operation(summary = "Delete document from maintenance", description = "Delete document from maintenance", tags = {"maintenance"})
-    @DeleteMapping("/{maintenanceId}/document")
+    @DeleteMapping("/{documentId}/document")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully deleted"),
             @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
                     content = {@Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiError.class))}),
     })
-    ResponseEntity<Boolean> deleteDocument(@PathVariable @Schema(example = "1") Long maintenanceId);
+    ResponseEntity<Boolean> deleteDocument(@PathVariable @Schema(example = "1") Long documentId) throws Exception;
 }

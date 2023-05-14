@@ -1,19 +1,15 @@
 package it.bruffa.facilitymanager.model.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
-import it.bruffa.facilitymanager.model.entity.*;
-import jakarta.persistence.*;
+import it.bruffa.facilitymanager.model.entity.MaintenanceStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateMaintenanceRequest {
+public class UpdateMaintenanceRequest {
 
     @Schema(example = "1")
     private Long structureId;
@@ -31,4 +27,10 @@ public class CreateMaintenanceRequest {
     @Schema(description = "Date of the Maintenance action", example = "2021-05-05")
     private java.time.LocalDateTime date;
 
+
+    @Schema(description = "Duration of the Maintenance action", example = "6")
+    private Integer duration;
+
+    @Schema(description = "Cost of the Maintenance action", example = "100.0")
+    private Double cost;
 }

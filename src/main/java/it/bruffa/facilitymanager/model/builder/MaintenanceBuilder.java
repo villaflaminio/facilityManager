@@ -15,8 +15,7 @@ public final class MaintenanceBuilder {
     private String description;
     private LocalDateTime date;
     private Integer duration;
-    private List<File> picturesBefore;
-    private List<File> picturesAfter;
+    private List<File> pictures;
     private List<File> documents;
     private Double cost;
     private Quote quote;
@@ -73,13 +72,8 @@ public final class MaintenanceBuilder {
         return this;
     }
 
-    public MaintenanceBuilder picturesBefore(List<File> picturesBefore) {
-        this.picturesBefore = picturesBefore;
-        return this;
-    }
-
-    public MaintenanceBuilder picturesAfter(List<File> picturesAfter) {
-        this.picturesAfter = picturesAfter;
+    public MaintenanceBuilder pictures(List<File> pictures) {
+        this.pictures = pictures;
         return this;
     }
 
@@ -109,8 +103,7 @@ public final class MaintenanceBuilder {
         maintenance.setDescription(description);
         maintenance.setDate(date);
         maintenance.setDuration(duration);
-        maintenance.setPicturesBefore(picturesBefore);
-        maintenance.setPicturesAfter(picturesAfter);
+        maintenance.setPictures(pictures);
         maintenance.setDocuments(documents);
         maintenance.setCost(cost);
         maintenance.setQuote(quote);

@@ -58,17 +58,16 @@ public class CleaningActionServiceImpl implements CleaningActionService {
 
         CleaningAction filter = new CleaningAction();
 
-        if(probe.getUserId() != null)
+        if (probe.getUserId() != null)
             filter.setUser(userRepository.findById(probe.getUserId()).orElseThrow(() -> new RuntimeException("User not found")));
 
-        if(probe.getStructureId() != null)
+        if (probe.getStructureId() != null)
             filter.setStructure(structureRepository.findById(probe.getStructureId()).orElseThrow(() -> new RuntimeException("Structure not found")));
 
-        if(probe.getCheckListId() != null)
+        if (probe.getCheckListId() != null)
             filter.setCheckList(checkListRepository.findById(probe.getCheckListId()).orElseThrow(() -> new RuntimeException("CheckList not found")));
 
         PropertiesHelper.copyNonNullProperties(probe, filter);
-
 
 
         if (StringUtils.isEmpty(sortField)) {
@@ -181,7 +180,6 @@ public class CleaningActionServiceImpl implements CleaningActionService {
                     .build();
             fileRepository.save(savedFile);
 
-            //todo verificare se salva reALMENTE
             return ResponseEntity.status(HttpStatus.OK).body(true);
         } catch (Exception e) {
             logger.error("Could not upload the file: " + file.getOriginalFilename() + "!");
@@ -205,23 +203,29 @@ public class CleaningActionServiceImpl implements CleaningActionService {
 
     @Override
     public ResponseEntity<List<ResponseFile>> getPicturesFromCleaningAction(Long cleaningActionId) {
-        CleaningAction cleaningAction = cleaningActionRepository.findById(cleaningActionId).orElseThrow(() -> new RuntimeException("CleaningAction not found"));
+        try {
+            logger.debug("getPicturesFromCleaningAction() called with id: {}", cleaningActionId);
+            CleaningAction cleaningAction = cleaningActionRepository.findById(cleaningActionId).orElseThrow(() -> new RuntimeException("CleaningAction not found"));
 
-        List<ResponseFile> files = cleaningAction.getPictures().stream().map(dbFile -> {
-            String fileDownloadUri = ServletUriComponentsBuilder
-                    .fromCurrentContextPath()
-                    .path("/files/")
-                    .path(dbFile.getId().toString())
-                    .toUriString();
+            List<ResponseFile> files = cleaningAction.getPictures().stream().map(dbFile -> {
+                String fileDownloadUri = ServletUriComponentsBuilder
+                        .fromCurrentContextPath()
+                        .path("/files/")
+                        .path(dbFile.getId().toString())
+                        .toUriString();
 
-            return new ResponseFile(
-                    dbFile.getName(),
-                    fileDownloadUri,
-                    dbFile.getType(),
-                    dbFile.getData().length);
-        }).collect(Collectors.toList());
+                return new ResponseFile(
+                        dbFile.getName(),
+                        fileDownloadUri,
+                        dbFile.getType(),
+                        dbFile.getData().length);
+            }).collect(Collectors.toList());
 
-        return ResponseEntity.status(HttpStatus.OK).body(files);
+            return ResponseEntity.status(HttpStatus.OK).body(files);
+        } catch (Exception e) {
+            logger.error("Could not get the files!");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).build();
+        }
     }
 
     @Override
