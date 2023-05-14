@@ -47,4 +47,9 @@ public class UserControllerImpl implements UserController {
         return userService.recoveryPassword(userEmail);
     }
 
+    @Override
+    public ResponseEntity<Boolean> changeRole(Long userId, String role) throws ItemNotFoundException {
+        return  userService.changeRole(userId, role);
+    }
+
 }

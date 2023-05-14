@@ -21,4 +21,5 @@ public interface UserService {
 
     MailResponse requestResetPassword(User user);
 
+    ResponseEntity<Boolean> changeRole(Long userId, String role);
 }

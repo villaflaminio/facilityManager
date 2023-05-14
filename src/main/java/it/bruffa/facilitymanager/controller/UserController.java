@@ -55,4 +55,17 @@ public interface UserController {
     })
     Object recoveryPassword(@RequestParam("email") String userEmail) throws ItemNotFoundException;
 
+    @Operation(summary = "Change role", description = "Change role", tags = {"user"})
+    @PostMapping("/changeRole/{userId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "400", description = "Bad request - The request was invalid or cannot be served",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+            @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))})
+    })
+    ResponseEntity<Boolean> changeRole(@PathVariable @Schema(example = "1") Long userId, @RequestParam @Schema(example = "ROLE_ADMIN") String role) throws ItemNotFoundException;
+
 }
