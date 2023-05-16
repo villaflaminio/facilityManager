@@ -20,6 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
+import static it.bruffa.facilitymanager.constants.Endpoints.API;
+import static it.bruffa.facilitymanager.constants.Endpoints.USER;
+
+
 public interface UserController {
 
 

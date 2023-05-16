@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/accessLogs")
-@Tag(name = "AccessLogController", description = "The AccessLog APIs")
+
 public interface AccessLogController {
 
 

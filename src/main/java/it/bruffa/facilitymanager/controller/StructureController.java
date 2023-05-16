@@ -22,9 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/structures")
-@Tag(name = "StructureController", description = "The sctructures APIs")
+
 public interface StructureController {
 
     @Operation(summary = "filter", description = "Filter structure", tags = {"structure"})

@@ -21,9 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/maintenance")
-@Tag(name = "MaintenanceController", description = "The maintenance APIs")
+
 public interface MaintenanceController {
 
     @Operation(summary = "filter", description = "Filter Maintenance", tags = {"maintenance"})

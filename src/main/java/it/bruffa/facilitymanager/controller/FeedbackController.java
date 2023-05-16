@@ -15,9 +15,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/feedbacks")
-@Tag(name = "FeedbackController", description = "The feedbacks APIs")
+
 public interface FeedbackController {
 
     //create

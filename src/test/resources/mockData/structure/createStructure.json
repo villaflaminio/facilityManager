@@ -1,0 +1,13 @@
+{
+  "name": "Home Bruffa 3",
+  "address": "Via Roma 3 ",
+  "city": "Roma",
+  "cap": "00159",
+  "province": "RM",
+  "country": "Italy",
+  "latitude": 49.9109,
+  "longitude": 22.4818,
+  "description": "Home Bruffa is a beautiful place",
+  "isActive": true,
+  "cleaningDuration": 2
+}

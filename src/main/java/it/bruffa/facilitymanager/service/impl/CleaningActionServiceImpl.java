@@ -56,6 +56,7 @@ public class CleaningActionServiceImpl implements CleaningActionService {
     public ResponseEntity<Page<CleaningAction>> filter(CleaningActionFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         Pageable pageable;
 
+        // Create a new probe with only the not null fields
         CleaningAction filter = new CleaningAction();
 
         if (probe.getUserId() != null)
