@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.controller.impl;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.bruffa.facilitymanager.controller.MaintenanceController;
 import it.bruffa.facilitymanager.model.dto.MaintenanceFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateMaintenanceRequest;
@@ -11,12 +12,14 @@ import it.bruffa.facilitymanager.utilities.ResponseFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
 @RestController
+@RequestMapping("/api/maintenance")
+@Tag(name = "maintenance", description = "The maintenance APIs")
 public class MaintenanceControllerImpl implements MaintenanceController {
     @Autowired
     private MaintenanceService maintenanceService;

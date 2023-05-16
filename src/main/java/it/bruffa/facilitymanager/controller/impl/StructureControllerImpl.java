@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.controller.impl;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.bruffa.facilitymanager.controller.StructureController;
 import it.bruffa.facilitymanager.model.dto.StructureFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateStructureRequest;
@@ -12,12 +13,14 @@ import it.bruffa.facilitymanager.service.StructureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
 import java.util.List;
-
 @RestController
+@RequestMapping("/api/structures")
+@Tag(name = "structure", description = "The structures APIs")
 public class StructureControllerImpl implements StructureController {
     @Autowired
     private StructureService structureService;

@@ -16,12 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/reservation")
-@Tag(name = "ReservationController", description = "The reservation APIs")
+
 public interface ReservationController {
 
-    @Operation(summary = "filter", description = "Filter Reservation", tags = {"structure"})
+    @Operation(summary = "filter", description = "Filter Reservation", tags = {"reservation"})
     @PostMapping("/filter")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
@@ -37,7 +35,7 @@ public interface ReservationController {
             @RequestParam(required = false, name = "sortDirection") String sortDirection);
 
 
-    @Operation(summary = "Get reservation by id", description = "Get reservation by id", tags = {"structure"})
+    @Operation(summary = "Get reservation by id", description = "Get reservation by id", tags = {"reservation"})
     @GetMapping("/{reservationId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
@@ -47,7 +45,7 @@ public interface ReservationController {
     })
     ResponseEntity<Reservation> getReservationById(@PathVariable @Schema(example = "1") Long reservationId);
 
-    @Operation(summary = "Create reservation", description = "Create reservation", tags = {"structure"})
+    @Operation(summary = "Create reservation", description = "Create reservation", tags = {"reservation"})
     @PostMapping
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Successfully created"),
@@ -59,7 +57,7 @@ public interface ReservationController {
 
 
     //delete
-    @Operation(summary = "Delete reservation", description = "Delete reservation", tags = {"structure"})
+    @Operation(summary = "Delete reservation", description = "Delete reservation", tags = {"reservation"})
     @DeleteMapping("/{reservationId}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successfully deleted"),

@@ -14,9 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
-@RequestMapping("/api/checkLists")
-@Tag(name = "CheckListController", description = "The CheckList APIs")
+
 public interface CheckListController {
 
     @Operation(summary = "Get checkList by id", description = "Get checkList by id", tags = {"checkList"})

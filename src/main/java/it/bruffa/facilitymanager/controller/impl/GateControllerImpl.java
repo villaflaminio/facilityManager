@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.controller.impl;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.bruffa.facilitymanager.controller.GateController;
 import it.bruffa.facilitymanager.model.dto.request.CreateGateRequest;
 import it.bruffa.facilitymanager.model.entity.Gate;
@@ -10,9 +11,11 @@ import it.bruffa.facilitymanager.service.GateService;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 @RestController
+@RequestMapping("/api/gates")
+@Tag(name = "gate", description = "The gates APIs")
 public class GateControllerImpl implements GateController {
     @Autowired
     private GateService gateService;

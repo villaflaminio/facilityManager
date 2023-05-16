@@ -1,5 +1,6 @@
 package it.bruffa.facilitymanager.controller.impl;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import it.bruffa.facilitymanager.controller.CleaningActionController;
 import it.bruffa.facilitymanager.model.dto.CleaningActionFilter;
 import it.bruffa.facilitymanager.model.dto.CreateCleaningActionRequest;
@@ -12,12 +13,14 @@ import it.bruffa.facilitymanager.utilities.ResponseFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
 @RestController
+@RequestMapping("/api/cleaningActions")
+@Tag(name = "cleaningAction", description = "The cleaningActions APIs")
 public class CleaningActionControllerImpl implements CleaningActionController {
     @Autowired
     private CleaningActionService cleaningActionService;

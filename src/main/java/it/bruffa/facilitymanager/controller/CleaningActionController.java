@@ -22,9 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/cleaningActions")
-@Tag(name = "CleaningActionController", description = "The cleaningActions APIs")
+
 public interface CleaningActionController {
     @Operation(summary = "filter", description = "Filter cleaningAction", tags = {"cleaningAction"})
     @PostMapping("/filter")
