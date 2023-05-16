@@ -3,6 +3,7 @@ package it.bruffa.facilitymanager.service;
 import it.bruffa.facilitymanager.model.dto.CreateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.dto.UpdateCleaningActionRequest;
 import it.bruffa.facilitymanager.model.dto.request.CreateCheckListRequest;
+import it.bruffa.facilitymanager.model.dto.request.CreateReservationRequest;
 import it.bruffa.facilitymanager.model.dto.request.CreateStructureRequest;
 import it.bruffa.facilitymanager.model.entity.*;
 import it.bruffa.facilitymanager.model.projection.CleaningActionInfo;
@@ -57,8 +58,8 @@ public class ReservationServiceImplTest {
     public void getReservationsWithCheckOnDay() {
         try {
             log.info("Starting execution of getReservationsWithCheckOnDay");
-            List<Reservation> expectedValue =  Instancio.ofList(Reservation.class).size(10).create();
-            LocalDate checkOutDate =  Instancio.of(LocalDate.class).create();
+            List<Reservation> expectedValue = Instancio.ofList(Reservation.class).size(10).create();
+            LocalDate checkOutDate = Instancio.of(LocalDate.class).create();
 
             when(reservationRepository.findAllByCheckOut(checkOutDate)).thenReturn(expectedValue);
 
@@ -73,69 +74,63 @@ public class ReservationServiceImplTest {
         }
     }
 
-//
-//    @Test
-//    @DisplayName("get Reservation By Id")
-//    public void getReservationById() {
-//        try {
-//            log.info("Starting execution of getReservationById");
-//            ResponseEntity<Reservation> expectedValue = null;
-//            Long reservationId = 0;
-//
-//
-//            ReservationServiceImpl reservationserviceimpl = new ReservationServiceImpl();
-//            ResponseEntity<Reservation> actualValue = reservationserviceimpl.getReservationById(reservationId);
-//            log.info("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
-//            System.out.println("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
-//            Assertions.assertEquals(expectedValue, actualValue);
-//        } catch (Exception exception) {
-//            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
-//            exception.printStackTrace();
-//            Assertions.assertFalse(false);
-//        }
-//    }
-//
-//    @Test
-//    @DisplayName("create Reservation")
-//    public void createReservation() {
-//        try {
-//            log.info("Starting execution of createReservation");
-//            ResponseEntity<Reservation> expectedValue = null;
-//            CreateReservationRequest createReservationRequest = null;
-//
-//
-//            ReservationServiceImpl reservationserviceimpl = new ReservationServiceImpl();
-//            ResponseEntity<Reservation> actualValue = reservationserviceimpl.createReservation(createReservationRequest);
-//            log.info("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
-//            System.out.println("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
-//            Assertions.assertEquals(expectedValue, actualValue);
-//        } catch (Exception exception) {
-//            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
-//            exception.printStackTrace();
-//            Assertions.assertFalse(false);
-//        }
-//    }
-//
-//    @Test
-//    @DisplayName("delete Reservation")
-//    public void deleteReservation() {
-//        try {
-//            log.info("Starting execution of deleteReservation");
-//            ResponseEntity<Boolean> expectedValue = null;
-//            Long reservationId = 0;
-//
-//
-//            ReservationServiceImpl reservationserviceimpl = new ReservationServiceImpl();
-//            ResponseEntity<Boolean> actualValue = reservationserviceimpl.deleteReservation(reservationId);
-//            log.info("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
-//            System.out.println("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
-//            Assertions.assertEquals(expectedValue, actualValue);
-//        } catch (Exception exception) {
-//            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
-//            exception.printStackTrace();
-//            Assertions.assertFalse(false);
-//        }
-//    }
+    @Test
+    @DisplayName("get Reservation By Id")
+    public void getReservationById() {
+        try {
+            log.info("Starting execution of getReservationById");
+            Reservation reservation = Instancio.create(Reservation.class);
+
+            when(reservationRepository.findById(anyLong())).thenReturn(Optional.of(reservation));
+            Long reservationId = reservation.getId();
+
+            ResponseEntity<Reservation> actualValue = reservationserviceimpl.getReservationById(reservationId);
+            Assertions.assertEquals(reservation, actualValue.getBody());
+        } catch (Exception exception) {
+            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
+            exception.printStackTrace();
+            Assertions.assertFalse(false);
+        }
+    }
+
+    @DisplayName("create Reservation")
+    @Test
+    public void createReservation() {
+        try {
+            log.info("Starting execution of createReservation");
+            CreateReservationRequest createReservationRequest = Instancio.create(CreateReservationRequest.class);
+
+            Structure structure = Instancio.create(Structure.class);
+
+            when(structureRepository.findById(anyLong())).thenReturn(Optional.of(structure));
+
+            ResponseEntity<Reservation> actualValue = reservationserviceimpl.createReservation(createReservationRequest);
+
+            Assertions.assertEquals(actualValue.getStatusCode(), HttpStatusCode.valueOf(200));
+        } catch (Exception exception) {
+            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
+            exception.printStackTrace();
+            Assertions.assertFalse(false);
+        }
+    }
+    @Test
+    @DisplayName("delete Reservation")
+    public void deleteReservation() {
+        try {
+            log.info("Starting execution of deleteReservation");
+            ResponseEntity<Boolean> expectedValue = ResponseEntity.ok(true);
+
+
+            ResponseEntity<Boolean> actualValue = reservationserviceimpl.deleteReservation(1l);
+            log.info("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
+            System.out.println("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
+            Assertions.assertEquals(expectedValue, actualValue);
+        } catch (Exception exception) {
+            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
+            exception.printStackTrace();
+            Assertions.assertFalse(false);
+        }
+    }
 
 
 }
