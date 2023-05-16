@@ -20,11 +20,25 @@ public class AccessLogControllerImpl implements AccessLogController {
     @Autowired
     private AccessLogService accessLogService;
 
+    /***
+     * Filter AccessLog
+     * @param probe
+     * @param page
+     * @param size
+     * @param sortField
+     * @param sortDirection
+     * @return
+     */
     @Override
     public ResponseEntity<Page<AccessLog>> filter(AccessLogFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         return accessLogService.filter(probe, page, size, sortField, sortDirection);
     }
 
+    /***
+     * Get AccessLog by structureId
+     * @param structureId
+     * @return
+     */
     @Override
     public ResponseEntity<List<AccessLogInfo>> getAccessLogByStructureId(Long structureId) {
         return  accessLogService.getAccessLogByStructureId(structureId);

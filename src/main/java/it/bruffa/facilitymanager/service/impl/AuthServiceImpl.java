@@ -70,10 +70,15 @@ public class AuthServiceImpl implements AuthService {
         this.roleRepository = roleRepository;
     }
 
+    /**
+     * @param signUpRequestDto
+     * @return
+     */
     @Override
     public ResponseEntity<AuthResponseDTO> login(LoginDto loginDto) {
         User user;
         UsernamePasswordAuthenticationToken authenticationToken;
+        // Check if the user is trying to login with username or email.
         if (loginDto.getUsername() != null) {
             user = userRepository.findByUsername(loginDto.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
             authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
@@ -84,6 +89,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         try {
+            // Try to authenticate the user.
             authenticationManager.authenticate(authenticationToken);
         } catch (Exception e) {
             throw new InvalidCredentialsException("Invalid username or password!");
@@ -101,6 +107,11 @@ public class AuthServiceImpl implements AuthService {
         return ResponseEntity.ok(tokenProvider.generateAuthFromUser(user));
     }
 
+    /**
+     * @param signUpRequestDto
+     * @return
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<User> signup(SignUpRequestDto signUpRequestDto) throws Exception {
         // Check if the email is already in use.
@@ -117,6 +128,7 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         PropertiesHelper.copyNonNullProperties(signUpRequestDto, user);
 
+        // Set the user's data.
         user.setFirstName(signUpRequestDto.getFirstName());
         user.setLastName(signUpRequestDto.getLastName());
         user.setUsername(signUpRequestDto.getUsername());
@@ -137,6 +149,11 @@ public class AuthServiceImpl implements AuthService {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws Exception
+     */
 
     @Override
     public ResponseEntity<TokenRefreshResponseDto> refreshtoken(String refreshToken) throws Exception {
@@ -162,6 +179,11 @@ public class AuthServiceImpl implements AuthService {
         return ResponseEntity.ok(tokenRefreshResponse);
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<?> createFirstUser(HttpServletRequest req) throws Exception {
         // Get ADMIN and USER role.
@@ -223,6 +245,11 @@ public class AuthServiceImpl implements AuthService {
         return ResponseEntity.ok(user);
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<UserMeInfo> getCurrentUser(UserPrincipal userPrincipal) {
 
@@ -233,6 +260,11 @@ public class AuthServiceImpl implements AuthService {
         return ResponseEntity.ok(user);
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<?> getAuthenticationToChangePassword(String token) {
         // Find the password reset token using the given token.
@@ -256,6 +288,10 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    /**
+     * @return
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<Boolean> logout(HttpServletRequest request, HttpServletResponse response) {
         // Get the Spring Authentication object of the current request.

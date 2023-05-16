@@ -21,6 +21,13 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    /**
+     * Configures the security filter chain.
+     * @see https://docs.spring.io/spring-security/site/docs/current/reference/html5/#servlet-authentication-authentication
+     * @param http
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SecurityFilterChain filterChain (HttpSecurity http) throws Exception
     { http

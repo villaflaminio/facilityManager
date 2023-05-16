@@ -18,11 +18,26 @@ public class QuoteControllerImpl implements QuoteController {
     @Autowired
     private QuoteService quoteService;
 
+    /***
+     * Get a quote by id
+     * @param quoteId
+     * @param updateQuoteRequest
+     * @return
+     * @throws ItemNotFoundException
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<Quote> updateQuote(Long quoteId, UpdateQuoteRequest updateQuoteRequest) throws ItemNotFoundException, Exception {
         return  quoteService.updateQuote(quoteId, updateQuoteRequest);
     }
 
+    /***
+     * Add a file to a quote
+     * @param quoteId
+     * @param file
+     * @return
+     * @throws ItemNotFoundException
+     */
     @Override
     public ResponseEntity<Boolean> addFileToQuote(Long quoteId, MultipartFile file) throws ItemNotFoundException {
         return quoteService.addFileToQuote(quoteId, file);

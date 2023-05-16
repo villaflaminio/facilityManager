@@ -25,41 +25,78 @@ public class CleaningActionControllerImpl implements CleaningActionController {
     @Autowired
     private CleaningActionService cleaningActionService;
 
+    /***
+     * This method is used to filter cleaningActions
+     * @param probe
+     * @param page
+     * @param size
+     * @param sortField
+     * @param sortDirection
+     * @return
+     */
     @Override
     public ResponseEntity<Page<CleaningAction>> filter(CleaningActionFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         return cleaningActionService.filter(probe, page, size, sortField, sortDirection);
     }
 
+    /***
+     * This method is used to get all cleaningActions
+     * @return
+     */
     @Override
     public ResponseEntity<CleaningActionInfo> getCleaningActionById(Long cleaningActionId) throws ItemNotFoundException {
         return  cleaningActionService.getCleaningActionById(cleaningActionId);
     }
 
+    /***
+     * This method is used to create cleaningActions
+     * @return
+     */
     @Override
     public ResponseEntity<CleaningAction> createCleaningAction(CreateCleaningActionRequest createCleaningActionRequest) throws Exception {
         return  cleaningActionService.createCleaningAction(createCleaningActionRequest);
     }
 
+    /***
+     * This method is used to update cleaningActions
+     * @return
+     */
     @Override
     public ResponseEntity<CleaningAction> updateCleaningAction(Long cleaningActionId, UpdateCleaningActionRequest updateCleaningActionRequest) throws ItemNotFoundException, Exception {
         return  cleaningActionService.updateCleaningAction(cleaningActionId, updateCleaningActionRequest);
     }
 
+    /***
+     * This method is used to delete cleaningActions
+     * @return
+     */
     @Override
     public ResponseEntity<Boolean> deleteCleaningAction(Long cleaningActionId) throws ItemNotFoundException {
         return cleaningActionService.deleteCleaningAction(cleaningActionId);
     }
 
+    /***
+     * This method is used to add pictures to cleaningActions
+     * @return
+     */
     @Override
     public ResponseEntity<Boolean> addPictureToCleaningAction(Long cleaningActionId, MultipartFile file) throws ItemNotFoundException {
         return cleaningActionService.addPictureToCleaningAction(cleaningActionId, file);
     }
 
+    /***
+     * This method is used to remove pictures from cleaningActions
+     * @return
+     */
     @Override
     public ResponseEntity<Boolean> removePictureFromCleaningAction(Long pictureId) throws ItemNotFoundException {
         return  cleaningActionService.removePictureFromCleaningAction(pictureId);
     }
 
+    /***
+     * This method is used to get pictures from cleaningActions
+     * @return
+     */
     @Override
     public ResponseEntity<List<ResponseFile>> getPicturesFromCleaningAction(Long cleaningActionId) throws ItemNotFoundException {
         return  cleaningActionService.getPicturesFromCleaningAction(cleaningActionId);

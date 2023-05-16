@@ -19,21 +19,41 @@ public class ReservationControllerImpl implements ReservationController {
     @Autowired
     private ReservationService reservationService;
 
+    /***
+     * Get a reservation by id
+     * @param reservationId
+     * @return
+     */
     @Override
     public ResponseEntity<Page<Reservation>> filter(ReservationFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         return reservationService.filter(probe, page, size, sortField, sortDirection);
     }
 
+    /***
+     * Get a reservation by id
+     * @param reservationId
+     * @return
+     */
     @Override
     public ResponseEntity<Reservation> getReservationById(Long reservationId) {
         return reservationService.getReservationById(reservationId);
     }
 
+    /***
+     * Get a reservation by id
+     * @param reservationId
+     * @return
+     */
     @Override
     public ResponseEntity<Reservation> createReservation(CreateReservationRequest createReservationRequest) {
         return reservationService.createReservation(createReservationRequest);
     }
 
+    /***
+     * Get a reservation by id
+     * @param reservationId
+     * @return
+     */
     @Override
     public ResponseEntity<Boolean> deleteReservation(Long reservationId) {
         return reservationService.deleteReservation(reservationId);

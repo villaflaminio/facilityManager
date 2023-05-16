@@ -18,6 +18,9 @@ import java.util.Collections;
 @Configuration
 public class CorsConfig {
 
+   /**
+    * Questo metodo è necessario per consentire la comunicazione tra il server e il client
+    * **/
    @Bean
    public CorsFilter corsFilter() {
       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -31,6 +34,8 @@ public class CorsConfig {
 
       return new CorsFilter(source);
    }
+
+
    @Bean
    public FilterRegistrationBean<CorsFilter> simpleCorsFilter() {
       UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

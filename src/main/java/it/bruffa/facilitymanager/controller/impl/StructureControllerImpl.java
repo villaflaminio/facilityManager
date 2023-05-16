@@ -25,36 +25,84 @@ public class StructureControllerImpl implements StructureController {
     @Autowired
     private StructureService structureService;
 
+    /***
+     * Filter structures
+     * @param probe
+     * @param page
+     * @param size
+     * @param sortField
+     * @param sortDirection
+     * @return
+     */
     @Override
     public ResponseEntity<Page<Structure>> filter(StructureFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         return structureService.filter(probe, page, size, sortField, sortDirection);
     }
 
+    /***
+     * Get structure by id
+     * @param structureId
+     * @return
+     * @throws ItemNotFoundException
+     */
     @Override
     public ResponseEntity<StructureInfo> getStructureById(Long structureId) throws ItemNotFoundException {
         return structureService.getStructureById(structureId);
     }
 
+    /***
+     * Get structures list
+     * @return
+     * @throws ItemNotFoundException
+     */
     @Override
     public ResponseEntity<List<StructureIdInfo>> getStructuresList() throws ItemNotFoundException {
         return structureService.getStructuresList();
     }
 
+    /***
+     * Get reservations between dates and structure
+     * @param startDate
+     * @param endDate
+     * @param structureId
+     * @return
+     * @throws ItemNotFoundException
+     */
     @Override
     public ResponseEntity<List<Reservation>> getReservationsBetweenDatesAndStructure(LocalDate startDate, LocalDate endDate, Long structureId) throws ItemNotFoundException {
         return structureService.getReservationsBetweenDatesAndStructure( startDate,  endDate, structureId);
     }
 
+    /***
+     * Create structure
+     * @param createStructureRequest
+     * @return
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<Structure> createStructure(CreateStructureRequest createStructureRequest) throws Exception {
         return structureService.createStructure(createStructureRequest);
     }
 
+    /***
+     * Update structure
+     * @param structureId
+     * @param structureRequest
+     * @return
+     * @throws ItemNotFoundException
+     * @throws Exception
+     */
     @Override
     public ResponseEntity<Structure> updateStructure(Long structureId, CreateStructureRequest structureRequest) throws ItemNotFoundException, Exception {
         return structureService.updateStructure(structureId, structureRequest);
     }
 
+    /***
+     * Delete structure
+     * @param structureId
+     * @return
+     * @throws ItemNotFoundException
+     */
     @Override
     public ResponseEntity<Boolean> deleteStructure(Long structureId) throws ItemNotFoundException {
         return structureService.deleteStructure(structureId);

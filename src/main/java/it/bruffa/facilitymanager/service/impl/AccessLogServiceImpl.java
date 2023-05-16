@@ -35,6 +35,16 @@ public class AccessLogServiceImpl implements AccessLogService {
 
     private static final Logger logger = LoggerFactory.getLogger(AccessLogServiceImpl.class);
 
+    /**
+     * Handles the filtering of access logs
+     *
+     * @param probe
+     * @param page
+     * @param size
+     * @param sortField
+     * @param sortDirection
+     * @return
+     */
     @Override
     public ResponseEntity<Page<AccessLog>> filter(AccessLogFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
         try {
@@ -43,6 +53,7 @@ public class AccessLogServiceImpl implements AccessLogService {
 
             AccessLog filter = new AccessLog();
 
+            // if the probe contains a structure id, we filter by structure
             if (probe.getUserId() != null && userRepository.existsById(probe.getUserId())) {
                 User user = userRepository.findById(probe.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
                 filter.setUser(user);
@@ -53,10 +64,11 @@ public class AccessLogServiceImpl implements AccessLogService {
                 filter.setGate(gate);
             }
 
+
             if (StringUtils.isEmpty(sortField)) {
                 pageable = PageRequest.of(page, size);
             } else {
-
+                //sort by field
                 Sort.Direction dir = StringUtils.isEmpty(sortDirection) ? Sort.Direction.ASC : Sort.Direction.valueOf(sortDirection.trim().toUpperCase());
                 pageable = PageRequest.of(page, size, dir, sortField);
             }
@@ -72,6 +84,12 @@ public class AccessLogServiceImpl implements AccessLogService {
 
     }
 
+    /***
+     * Saves an access log
+     * @param userId
+     * @param gateId
+     * @return
+     */
     @Override
     public boolean save(Long userId, Long gateId) {
         try {
@@ -79,6 +97,7 @@ public class AccessLogServiceImpl implements AccessLogService {
             User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
             Gate gate = gateRepository.findById(gateId).orElseThrow(() -> new RuntimeException("Gate not found"));
 
+            // save the access log
             AccessLog accessLog = new AccessLog();
             accessLog.setUser(user);
             accessLog.setGate(gate);
@@ -90,11 +109,18 @@ public class AccessLogServiceImpl implements AccessLogService {
         }
     }
 
+    /***
+     * Saves an access log
+     * @param user
+     * @param gate
+     * @return
+     */
     @Override
     public boolean save(User user, Gate gate) {
         try {
             logger.info("saving access log for user: {} and gate: {}", user, gate);
 
+            // save the access log
             AccessLog accessLog = new AccessLog();
             accessLog.setUser(user);
             accessLog.setGate(gate);
@@ -106,6 +132,11 @@ public class AccessLogServiceImpl implements AccessLogService {
         }
     }
 
+    /***
+     * Gets the access log by structure id
+     * @param structureId
+     * @return
+     */
     @Override
     public ResponseEntity<List<AccessLogInfo>> getAccessLogByStructureId(Long structureId) {
         try {

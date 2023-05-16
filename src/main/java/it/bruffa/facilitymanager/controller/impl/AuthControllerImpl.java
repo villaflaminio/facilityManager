@@ -30,6 +30,12 @@ public class AuthControllerImpl implements AuthController {
     @Autowired
     private AuthService authService;
 
+    /**
+     * Login.
+     *
+     * @param loginDto the login dto
+     * @return the response entity
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDTO> login(@RequestBody @Valid LoginDto loginDto) {
         try {
@@ -50,26 +56,60 @@ public class AuthControllerImpl implements AuthController {
         // Return the current user found by id.
         return authService.getCurrentUser(userPrincipal);
     }
+
+    /**
+     * Signup.
+     *
+     * @param signUpRequestDto the sign up request dto
+     * @return the response entity
+     * @throws Exception the exception
+     */
     @Override
     public ResponseEntity<User> signup(SignUpRequestDto signUpRequestDto) throws Exception {
         return authService.signup(signUpRequestDto);
     }
 
+    /**
+     * Register user.
+     *
+     * @param registerUser the register user
+     * @return the response entity
+     * @throws Exception the exception
+     */
     @Override
     public ResponseEntity<User> registerUser(RegisterUserRequestDto registerUser) throws Exception {
         return  authService.registerUser(registerUser);
     }
 
+    /**
+     * Logout.
+     *
+     * @param request  the request
+     * @param response the response
+     * @return the response entity
+     */
     @Override
     public ResponseEntity<Boolean> logout(HttpServletRequest request, HttpServletResponse response) {
         return  authService.logout(request, response);
     }
 
-
+/**
+     * Refresh token.
+     *
+     * @param refreshToken the refresh token
+     * @return the response entity
+     * @throws Exception the exception
+     */
     @PostMapping("/refreshToken")
     public ResponseEntity<TokenRefreshResponseDto> refreshtoken(@RequestBody @Valid String refreshToken) throws Exception {
         return authService.refreshtoken(refreshToken);
     }
+    /**
+     * Get authentication to change password.
+     *
+     * @param token the token
+     * @return the authentication to change password
+     */
 
     @Override
     public ResponseEntity<?> getAuthenticationToChangePassword(String token) {

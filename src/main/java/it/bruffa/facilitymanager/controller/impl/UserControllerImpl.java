@@ -31,16 +31,28 @@ public class UserControllerImpl implements UserController {
     @Autowired
     private UserService userService;
 
-
+    /**
+     * @param userId
+     * @return
+     * @throws ItemNotFoundException
+     */
     @Override
     public UserDetailInfo getUserById(Long userId) throws ItemNotFoundException {
         return userService.getUserById(userId);
     }
 
+    /**
+     * Change password
+     * @param userPrincipal
+     * @param body
+     * @return
+     * @throws ItemNotFoundException
+     */
     @Override
     public User changePassword(UserPrincipal userPrincipal, ChangePassworRequest body) throws ItemNotFoundException {
         return userService.changePassword(userPrincipal, body);
     }
+
 
     @Override
     public Object recoveryPassword(String userEmail) throws ItemNotFoundException {

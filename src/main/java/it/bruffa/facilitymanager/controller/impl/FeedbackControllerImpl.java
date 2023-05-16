@@ -17,11 +17,19 @@ public class FeedbackControllerImpl implements FeedbackController {
     @Autowired
     private FeedbackService feedbackService;
 
+    /***
+     * This method is used to get all feedbacks
+     * @return
+     */
     @Override
     public ResponseEntity<Feedback> createFeedback(CreateFeedbackRequest createFeedbackRequest) throws Exception {
         return  feedbackService.createFeedback(createFeedbackRequest);
     }
 
+    /***
+     * This method is used to get all feedbacks
+     * @return
+     */
     @Override
     public ResponseEntity<Boolean> deleteFeedback(Long feedbackId) throws Exception {
         return  feedbackService.deleteFeedback(feedbackId);
