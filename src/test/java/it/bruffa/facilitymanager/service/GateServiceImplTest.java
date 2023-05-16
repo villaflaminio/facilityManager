@@ -1,212 +1,165 @@
-//package it.bruffa.facilitymanager.service;
-//import static org.junit.Assert.assertEquals;
-//import org.junit.Test;
-//import org.apache.log4j.Logger;
-//import static org.junit.jupiter.api.Assertions.fail;
-//import org.junit.jupiter.api.AfterAll;
-//import org.junit.jupiter.api.AfterEach;
-//import org.junit.jupiter.api.BeforeAll;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Disabled;
-//import org.junit.jupiter.api.Test;
-//public class GateServiceImplTest {
-//
-//	private Logger log = Logger.getLogger(this.getClass());
-//    @BeforeAll
-//    static void initAll() {
-//    }
-//    @BeforeEach
-//    void init() {
-//    }
-//
-//  @Test
-//	@DisplayName("get Gate By Id")
-//    public void getGateById(){
-//		try {
-//			log.info("Starting execution of getGateById");
-//ResponseEntity<GateInfo> expectedValue = null;
-//  Long gateId=0;
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//ResponseEntity<GateInfo> actualValue=gateserviceimpl.getGateById( gateId);
-//	  log.info("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//	  System.out.println("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//Assertions.assertEquals(expectedValue, actualValue);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution of execute1GetAllLogFromFirstMovF-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(false);
-//		}
-//    }
-//
-//  @Test
-//	@DisplayName("get Gate By Name")
-//    public void getGateByName(){
-//		try {
-//			log.info("Starting execution of getGateByName");
-//ResponseEntity<GateInfo> expectedValue = null;
-//  String gateName="";
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//ResponseEntity<GateInfo> actualValue=gateserviceimpl.getGateByName( gateName);
-//	  log.info("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//	  System.out.println("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//Assertions.assertEquals(expectedValue, actualValue);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution of execute1GetAllLogFromFirstMovF-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(false);
-//		}
-//    }
-//
-//  @Test
-//	@DisplayName("create Gate")
-//    public void createGate(){
-//		try {
-//			log.info("Starting execution of createGate");
-//ResponseEntity<Gate> expectedValue = null;
-//  CreateGateRequest createGateRequest = null;
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//ResponseEntity<Gate> actualValue=gateserviceimpl.createGate( createGateRequest);
-//	  log.info("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//	  System.out.println("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//Assertions.assertEquals(expectedValue, actualValue);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution of execute1GetAllLogFromFirstMovF-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(false);
-//		}
-//    }
-//
-//  @Test
-//	@DisplayName("update Gate")
-//    public void updateGate(){
-//		try {
-//			log.info("Starting execution of updateGate");
-//ResponseEntity<Gate> expectedValue = null;
-//  Long gateId=0;
-//CreateGateRequest createGateRequest = null;
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//ResponseEntity<Gate> actualValue=gateserviceimpl.updateGate( gateId ,createGateRequest);
-//	  log.info("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//	  System.out.println("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//Assertions.assertEquals(expectedValue, actualValue);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution of execute1GetAllLogFromFirstMovF-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(false);
-//		}
-//    }
-//
-//  @Test
-//	@DisplayName("delete Gate")
-//    public void deleteGate(){
-//		try {
-//			log.info("Starting execution of deleteGate");
-//ResponseEntity<Boolean> expectedValue = null;
-//  Long gateId=0;
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//ResponseEntity<Boolean> actualValue=gateserviceimpl.deleteGate( gateId);
-//	  log.info("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//	  System.out.println("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//Assertions.assertEquals(expectedValue, actualValue);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution of execute1GetAllLogFromFirstMovF-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(false);
-//		}
-//    }
-//
-//  @Test
-//	@DisplayName("open Gate")
-//    public void openGate(){
-//		try {
-//			log.info("Starting execution of openGate");
-//ResponseEntity<Boolean> expectedValue = null;
-//  UserPrincipal userPrincipal = null;
-//Long gateId=0;
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//ResponseEntity<Boolean> actualValue=gateserviceimpl.openGate( userPrincipal ,gateId);
-//	  log.info("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//	  System.out.println("Expected Value="+ expectedValue +" . Actual Value="+actualValue);
-//Assertions.assertEquals(expectedValue, actualValue);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution of execute1GetAllLogFromFirstMovF-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(false);
-//		}
-//    }
-//
-//  @Test
-//	@DisplayName("open Gate Exception")
-//    public void openGateException(){
-//		try {
-//			log.info("Starting execution of openGateException");
-// UserPrincipal userPrincipal = null;
-//Long gateId=0;
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//gateserviceimpl.openGateException( userPrincipal ,gateId);
-//Assertions.assertTrue(false);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution ofopenGateException-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(true);
-//		}
-//    }
-//
-//  @Test
-//	@DisplayName("publish Message Exception")
-//    public void publishMessageException(){
-//		try {
-//			log.info("Starting execution of publishMessageException");
-// MqttPublishModel messagePublishModel = null;
-//BindingResult bindingResult = null;
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//gateserviceimpl.publishMessageException( messagePublishModel ,bindingResult);
-//Assertions.assertTrue(false);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution ofpublishMessageException-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(true);
-//		}
-//    }
-//
-//  @Test
-//	@DisplayName("publish Message")
-//    public void publishMessage(){
-//		try {
-//			log.info("Starting execution of publishMessage");
-// MqttPublishModel messagePublishModel = null;
-//BindingResult bindingResult = null;
-//
-//
-// GateServiceImpl gateserviceimpl  =new GateServiceImpl();
-//gateserviceimpl.publishMessage( messagePublishModel ,bindingResult);
-//Assertions.assertTrue(true);
-//		} catch (Exception exception) {
-//			log.error("Exception in execution ofpublishMessage-"+exception,exception);
-//			exception.printStackTrace();
-//			Assertions.assertFalse(false);
-//		}
-//    }
-//    @AfterEach
-//    void tearDown() {
-//    }
-//    @AfterAll
-//    static void tearDownAll() {
-//    }
-//}
+package it.bruffa.facilitymanager.service;
+
+import it.bruffa.facilitymanager.model.dto.request.CreateFeedbackRequest;
+import it.bruffa.facilitymanager.model.dto.request.CreateGateRequest;
+import it.bruffa.facilitymanager.model.dto.request.CreateStructureRequest;
+import it.bruffa.facilitymanager.model.entity.Feedback;
+import it.bruffa.facilitymanager.model.entity.Gate;
+import it.bruffa.facilitymanager.model.entity.Reservation;
+import it.bruffa.facilitymanager.model.entity.Structure;
+import it.bruffa.facilitymanager.model.projection.GateInfo;
+import it.bruffa.facilitymanager.model.projection.StructureIdInfo;
+import it.bruffa.facilitymanager.model.projection.StructureInfo;
+import it.bruffa.facilitymanager.repository.*;
+import it.bruffa.facilitymanager.service.impl.FeedbackServiceImpl;
+import it.bruffa.facilitymanager.service.impl.GateServiceImpl;
+import it.bruffa.facilitymanager.service.impl.StructureServiceImpl;
+import it.bruffa.facilitymanager.utilities.mqtt.MqttPublishModel;
+import org.checkerframework.checker.units.qual.A;
+import org.instancio.Instancio;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindingResult;
+
+@ExtendWith(MockitoExtension.class)
+public class GateServiceImplTest {
+
+    private static final Logger log = LoggerFactory.getLogger(GateServiceImplTest.class);
+
+    @Mock
+    private GateRepository gateRepository;
+
+    @Mock
+    private StructureRepository structureRepository;
+
+    @Mock
+    private AccessLogService accessLogService;
+
+    @Mock
+    private UserRepository userRepository;
+    @InjectMocks
+    GateServiceImpl gateserviceimpl;
+    ProjectionFactory factory = new SpelAwareProxyProjectionFactory();
+
+    @Test
+    @DisplayName("get Gate By Id")
+    public void getGateById() {
+        try {
+            log.info("Starting execution of getGateById");
+            Gate gate = Instancio.create(Gate.class);
+            GateInfo projection = factory.createProjection(GateInfo.class, gate);
+
+            when(gateRepository.getGateById(anyLong())).thenReturn(Optional.of(projection));
+            Long gateId = gate.getId();
+
+            ResponseEntity<GateInfo> actualValue = gateserviceimpl.getGateById(gateId);
+            Assertions.assertEquals(projection, actualValue.getBody());
+        } catch (Exception exception) {
+            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
+            exception.printStackTrace();
+            Assertions.assertFalse(false);
+        }
+    }
+
+    @Test
+    @DisplayName("get Gate By Name")
+    public void getGateByName() {
+        try {
+            log.info("Starting execution of getGateById");
+            Gate gate = Instancio.create(Gate.class);
+            GateInfo projection = factory.createProjection(GateInfo.class, gate);
+
+            when(gateRepository.findByName(gate.getName())).thenReturn(Optional.of(projection));
+
+            ResponseEntity<GateInfo> actualValue = gateserviceimpl.getGateByName(gate.getName());
+            Assertions.assertEquals(projection, actualValue.getBody());
+        } catch (Exception exception) {
+            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
+            exception.printStackTrace();
+            Assertions.assertFalse(false);
+        }
+    }
+    @DisplayName("create Gate")
+    @Test
+    public void createGate() {
+        try {
+            log.info("Starting execution of createGate");
+            CreateGateRequest createGateRequest = Instancio.create(CreateGateRequest.class);
+
+            ResponseEntity<Gate> actualValue = gateserviceimpl.createGate(createGateRequest);
+
+            Assertions.assertEquals(actualValue.getStatusCode(), HttpStatusCode.valueOf(200));
+        } catch (Exception exception) {
+            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
+            exception.printStackTrace();
+            Assertions.assertFalse(false);
+        }
+    }
+    @Test
+    @DisplayName("update Gate")
+    public void updateGate() {
+        try {
+            log.info("Starting execution of updateGate");
+            Gate gate = Instancio.create(Gate.class);
+            Long gateId = gate.getId();
+
+            Structure structure = Instancio.create(Structure.class);
+            when(structureRepository.findById(anyLong())).thenReturn(Optional.of(structure));
+            when(gateRepository.findById(anyLong())).thenReturn(Optional.of(gate));
+            CreateGateRequest gateRequest =  Instancio.create(CreateGateRequest.class);
+
+
+            ResponseEntity<Gate> actualValue = gateserviceimpl.updateGate(gateId, gateRequest);
+
+            Assertions.assertEquals(actualValue.getStatusCode(), HttpStatusCode.valueOf(200));
+        } catch (Exception exception) {
+            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
+            exception.printStackTrace();
+            Assertions.assertFalse(false);
+        }
+    }
+
+    @Test
+    @DisplayName("delete Gate")
+    public void deleteGate() {
+        try {
+            log.info("Starting execution of deleteGate");
+            ResponseEntity<Boolean> expectedValue = ResponseEntity.ok(true);
+            Gate gate = Instancio.create(Gate.class);
+            Long gateId = gate.getId();
+
+            when(gateRepository.findById(anyLong())).thenReturn(Optional.of(gate));
+
+            ResponseEntity<Boolean> actualValue = gateserviceimpl.deleteGate(gateId);
+            log.info("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
+            System.out.println("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
+            Assertions.assertEquals(expectedValue, actualValue);
+        } catch (Exception exception) {
+            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
+            exception.printStackTrace();
+            Assertions.assertFalse(false);
+        }
+    }
+
+
+}
