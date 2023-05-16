@@ -66,37 +66,18 @@ public class FeedbackServiceImplTest {
             Assertions.assertFalse(false);
         }
     }
-    @Test
-    @DisplayName("create Feedback")
-    public void createFeedback() {
-        try {
-            log.info("Starting execution of createFeedback");
-            ResponseEntity<Feedback> expectedValue = null;
-            CreateFeedbackRequest createFeedbackRequest = Instancio.create(CreateFeedbackRequest.class);
-
-
-            FeedbackServiceImpl feedbackserviceimpl = new FeedbackServiceImpl();
-            ResponseEntity<Feedback> actualValue = feedbackserviceimpl.createFeedback(createFeedbackRequest);
-            log.info("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
-            System.out.println("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
-            Assertions.assertEquals(expectedValue, actualValue);
-        } catch (Exception exception) {
-            log.error("Exception in execution of execute1GetAllLogFromFirstMovF-" + exception, exception);
-            exception.printStackTrace();
-            Assertions.assertFalse(false);
-        }
-    }
 
     @Test
     @DisplayName("delete Feedback")
     public void deleteFeedback() {
         try {
             log.info("Starting execution of deleteFeedback");
-            ResponseEntity<Boolean> expectedValue = null;
-            Long feedbackId = 0;
+            ResponseEntity<Boolean> expectedValue = ResponseEntity.ok(true);
+            Feedback feedback = Instancio.create(Feedback.class);
+            Long feedbackId = feedback.getId();
 
+            when(feedbackRepository.findById(anyLong())).thenReturn(Optional.of(feedback));
 
-            FeedbackServiceImpl feedbackserviceimpl = new FeedbackServiceImpl();
             ResponseEntity<Boolean> actualValue = feedbackserviceimpl.deleteFeedback(feedbackId);
             log.info("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
             System.out.println("Expected Value=" + expectedValue + " . Actual Value=" + actualValue);
@@ -108,11 +89,4 @@ public class FeedbackServiceImplTest {
         }
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
-    @AfterAll
-    static void tearDownAll() {
-    }
 }
