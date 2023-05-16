@@ -86,7 +86,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ResponseEntity<Reservation> createReservation(CreateReservationRequest createReservationRequest) {
         try {
             logger.debug("createReservation() called with createReservationRequest: {}", createReservationRequest);
-            Structure structure = structureRepository.findById(createReservationRequest.getStructureId()).get();
+            Structure structure = structureRepository.findById(createReservationRequest.getStructureId()).orElseThrow(  () -> new Exception("Structure not found"));
             Reservation reservation = ReservationBuilder.builder().structure(structure).arrival(createReservationRequest.getArrival()).departure(createReservationRequest.getDeparture()).checkIn(createReservationRequest.getCheckIn()).checkOut(createReservationRequest.getCheckOut()).guests(createReservationRequest.getGuests()).guestSurname(createReservationRequest.getGuestSurname()).guestName(createReservationRequest.getGuestName()).build();
 
             List<Reservation> reservations = reservationRepository.getAllBetweenDatesAndStructure(createReservationRequest.getArrival(), createReservationRequest.getDeparture(), createReservationRequest.getStructureId());
