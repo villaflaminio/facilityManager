@@ -34,4 +34,4 @@ jobs:
             mv docker-compose.yml ../
             mvn -U clean package install -DskipTests
             cd ..
-            docker-compose up --no-deps --build
+            docker compose up --no-deps --build
