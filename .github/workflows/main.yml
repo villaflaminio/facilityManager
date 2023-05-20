@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ release ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy repository contents via scp
+        uses: garygrossgarten/github-action-scp@release
+        with:
+          local: .
+          remote: /home/flaminio/repository_githubAction/facilityManager
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          privateKey : ${{ secrets.SSHKEY }}
+
+      - name: Deploy using ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSHKEY }}
+          script: |
+            cd ..
+            cd /home/flaminio/repository_githubAction/facilityManager
+            docker stop facilityManager
+            docker rm facilityManager
+            docker rmi $(docker images | grep 'facilityManager')
