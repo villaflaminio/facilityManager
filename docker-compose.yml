@@ -22,7 +22,7 @@ services:
         # Configuration for building the docker image for the backend service
         container_name: facility_management_be
         build:
-            context: facilityManager
+            context: sourceCode
             dockerfile: Dockerfile
         ports:
             - 6003:8080 # Forward the exposed port 8080 on the container to port 5002 on the host machine
