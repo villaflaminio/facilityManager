@@ -32,4 +32,6 @@ jobs:
             cd ..
             cd /home/flaminio/repository_githubAction/facilityManager/sourceCode
             mv docker-compose.yml ../
+            mvn -U clean package install -DskipTests
             cd ..
+            docker-compose up --no-deps --build
