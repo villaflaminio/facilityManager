@@ -3,6 +3,7 @@ package it.bruffa.facilitymanager.service.impl;
 import it.bruffa.facilitymanager.constants.SecurityConstants;
 import it.bruffa.facilitymanager.model.dto.MailResponse;
 import it.bruffa.facilitymanager.model.dto.request.ChangePassworRequest;
+import it.bruffa.facilitymanager.model.dto.request.SignUpRequestDto;
 import it.bruffa.facilitymanager.model.entity.PasswordResetToken;
 import it.bruffa.facilitymanager.model.entity.Role;
 import it.bruffa.facilitymanager.model.entity.User;
@@ -143,4 +144,32 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public User updateUser(Long userId, SignUpRequestDto user) {
+
+        try{
+            logger.debug("Update user with id: {}", userId);
+            User userToUpdate = userRepository.findById(userId).orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND));
+            userToUpdate.setFirstName(user.getFirstName());
+            userToUpdate.setLastName(user.getLastName());
+            userToUpdate.setEmail(user.getEmail());
+            userToUpdate.setUsername(user.getUsername());
+            userToUpdate.setLatitude(user.getLatitude());
+            userToUpdate.setLongitude(user.getLongitude());
+            userToUpdate.setEnable(user.getEnable());
+
+            return userRepository.save(userToUpdate);
+
+        }catch (ItemNotFoundException e){
+            logger.error("User not found!");
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<UserDetailInfo> getUsers() {
+        return userRepository.findAllProjectedBy();
+    }
+
 }

@@ -34,5 +34,8 @@ public class SignUpRequestDto {
     @Schema(description = "Longitude of the user", example = "9.123456")
     private Double longitude;
 
+    @Schema(description = "Enable of the user", example = "true")
+    @NotNull
+    private Boolean enable;
 
 }
