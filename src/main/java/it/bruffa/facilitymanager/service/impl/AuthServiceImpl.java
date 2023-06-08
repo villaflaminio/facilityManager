@@ -87,9 +87,12 @@ public class AuthServiceImpl implements AuthService {
             user = userRepository.findByEmail(loginDto.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
             authenticationToken = new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
         }
-
+        if(!user.getEnable()){
+            throw new InvalidCredentialsException("User is not enabled!");
+        }
         try {
             // Try to authenticate the user.
+
             authenticationManager.authenticate(authenticationToken);
         } catch (Exception e) {
             throw new InvalidCredentialsException("Invalid username or password!");

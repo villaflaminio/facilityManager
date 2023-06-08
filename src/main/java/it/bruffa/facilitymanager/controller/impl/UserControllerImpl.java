@@ -72,6 +72,16 @@ public class UserControllerImpl implements UserController {
     }
 
     @Override
+    public User disableUser(Long userId) throws ItemNotFoundException {
+       return userService.disableUser(userId);
+    }
+
+    @Override
+    public User enableUser(Long userId) throws ItemNotFoundException {
+        return userService.enableUser(userId);
+    }
+
+    @Override
     public List<UserDetailInfo> getUsers() {
         return  userService.getUsers();
     }

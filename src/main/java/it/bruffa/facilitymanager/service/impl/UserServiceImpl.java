@@ -54,8 +54,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User changePassword(UserPrincipal userPrincipal, ChangePassworRequest body) {
-        User user = userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ItemNotFoundException("User not found!"));
+        User user = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new ItemNotFoundException("User not found!"));
 
         // Update the password.
         user.setPassword(body.getNewPassword());
@@ -110,9 +109,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Boolean> changeRole(Long userId, String role) {
+    public ResponseEntity<Boolean> changeRole(Long userId, String rolesToAdd) {
         try {
             logger.debug("Change role for user with id: {}", userId);
+            //split roles by ,
+            String[] rolesArray = rolesToAdd.split(",");
+
             User user = userRepository.findById(userId).orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND));
             List<Role> roles = roleRepository.findAll();
             Role admin = roles.stream().filter(r -> r.getName().equals("ROLE_ADMIN")).findFirst().get();
@@ -121,34 +123,38 @@ public class UserServiceImpl implements UserService {
             Role maintainer = roles.stream().filter(r -> r.getName().equals("ROLE_MAINTAINER")).findFirst().get();
             List<Role> selectedRoles = new ArrayList<>();
 
-            switch (role) {
+            for (String role : rolesArray) {
+                switch (role) {
 
-                case "ROLE_ADMIN" -> {
-                    selectedRoles.add(admin);
-                    selectedRoles.add(userRole);
+                    case "ROLE_ADMIN" -> {
+                        selectedRoles.add(admin);
+                        selectedRoles.add(userRole);
+                    }
+                    case "ROLE_MAINTAINER" -> {
+                        selectedRoles.add(maintainer);
+                    }
+                    case "ROLE_CLEANER" -> {
+                        selectedRoles.add(cleaner);
+                    }
+                    case "ROLE_USER" -> selectedRoles.add(userRole);
                 }
-                case "ROLE_MAINTAINER" -> {
-                    selectedRoles.add(maintainer);
-                }
-                case "ROLE_CLEANER" -> {
-                    selectedRoles.add(cleaner);
-                }
-                case "ROLE_USER" -> selectedRoles.add(userRole);
             }
 
             user.setRoles(selectedRoles);
             userRepository.save(user);
             return ResponseEntity.ok(true);
-        } catch (ItemNotFoundException e) {
+        } catch (
+                ItemNotFoundException e) {
             logger.error("User not found!");
             throw new RuntimeException(e);
         }
+
     }
 
     @Override
     public User updateUser(Long userId, SignUpRequestDto user) {
 
-        try{
+        try {
             logger.debug("Update user with id: {}", userId);
             User userToUpdate = userRepository.findById(userId).orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND));
             userToUpdate.setFirstName(user.getFirstName());
@@ -161,7 +167,7 @@ public class UserServiceImpl implements UserService {
 
             return userRepository.save(userToUpdate);
 
-        }catch (ItemNotFoundException e){
+        } catch (ItemNotFoundException e) {
             logger.error("User not found!");
             throw new RuntimeException(e);
         }
@@ -170,6 +176,34 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDetailInfo> getUsers() {
         return userRepository.findAllProjectedBy();
+    }
+
+    @Override
+    public User disableUser(Long userId) {
+        try {
+            logger.debug("Disable user with id: {}", userId);
+            User userToUpdate = userRepository.findById(userId).orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND));
+            userToUpdate.setEnable(false);
+            return userRepository.save(userToUpdate);
+
+        } catch (ItemNotFoundException e) {
+            logger.error("User not found!");
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public User enableUser(Long userId) {
+        try {
+            logger.debug("Enable user with id: {}", userId);
+            User userToUpdate = userRepository.findById(userId).orElseThrow(() -> new ItemNotFoundException(USER_NOT_FOUND));
+            userToUpdate.setEnable(true);
+            return userRepository.save(userToUpdate);
+
+        } catch (ItemNotFoundException e) {
+            logger.error("User not found!");
+            throw new RuntimeException(e);
+        }
     }
 
 }

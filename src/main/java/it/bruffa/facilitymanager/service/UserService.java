@@ -28,4 +28,8 @@ public interface UserService {
     User updateUser(Long userId, SignUpRequestDto user);
 
     List<UserDetailInfo> getUsers();
+
+    User disableUser(Long userId);
+
+    User enableUser(Long userId);
 }

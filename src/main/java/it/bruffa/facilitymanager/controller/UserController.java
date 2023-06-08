@@ -83,6 +83,31 @@ public interface UserController {
     })
     User updateUser(@PathVariable @Schema(example = "1") Long userId, @RequestBody SignUpRequestDto user) throws ItemNotFoundException;
 
+    @Operation(summary = "Disable user", description = "Disable user", tags = {"user"})
+    @PutMapping("disable/{userId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully disabled"),
+            @ApiResponse(responseCode = "400", description = "Bad request - The request was invalid or cannot be served",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+            @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))})
+    })
+    User disableUser(@PathVariable @Schema(example = "1") Long userId) throws ItemNotFoundException;
+
+    @Operation(summary = "enable user", description = "enable user", tags = {"user"})
+    @PutMapping("enable/{userId}")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully enabled"),
+            @ApiResponse(responseCode = "400", description = "Bad request - The request was invalid or cannot be served",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+            @ApiResponse(responseCode = "404", description = "Not found - The item was not found",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))})
+    })
+    User enableUser(@PathVariable @Schema(example = "1") Long userId) throws ItemNotFoundException;
 
     //getUsers
     @Operation(summary = "Get users", description = "Get users", tags = {"user"})
