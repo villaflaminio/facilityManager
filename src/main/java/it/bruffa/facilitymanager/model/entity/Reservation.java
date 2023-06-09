@@ -29,7 +29,7 @@ public class Reservation {
     private Structure structure;
 
     @NotNull
-    @Column(name ="arrival")
+    @Column(name = "arrival")
     private LocalDate arrival;
 
     @NotNull
@@ -56,4 +56,7 @@ public class Reservation {
     @Column(name = "guest_surname")
     private String guestSurname;
 
+    public Long getStructureId() {
+        return (long) structure.getId();
+    }
 }
