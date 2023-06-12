@@ -14,11 +14,11 @@ import org.springframework.core.task.TaskExecutor;
 import java.util.List;
 
 @SpringBootApplication
-@OpenAPIDefinition(info = @Info(title = "FacilityManagerApplication", version = "2.0", description = "FacilityManager Application"),servers = {
-        @Server(url = "https://facilitymanager.be.flaminiovilla.it/", description = "Default Server URL")
-})
-//@OpenAPIDefinition(info = @Info(title = "FacilityManagerApplication", version = "2.0", description = "FacilityManager Application")
-//)
+//@OpenAPIDefinition(info = @Info(title = "FacilityManagerApplication", version = "2.0", description = "FacilityManager Application"),servers = {
+//        @Server(url = "https://facilitymanager.be.flaminiovilla.it/", description = "Default Server URL")
+//})
+@OpenAPIDefinition(info = @Info(title = "FacilityManagerApplication", version = "2.0", description = "FacilityManager Application")
+)
 public class FacilityManagerApplication {
 
     public static void main(String[] args) {

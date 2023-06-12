@@ -2,20 +2,35 @@ package it.bruffa.facilitymanager.controller.impl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import it.bruffa.facilitymanager.controller.CheckListController;
+import it.bruffa.facilitymanager.model.dto.CheckListFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateCheckListRequest;
 import it.bruffa.facilitymanager.model.entity.CheckList;
 import it.bruffa.facilitymanager.model.exception.ItemNotFoundException;
 import it.bruffa.facilitymanager.service.CheckListService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/checkLists")
 @Tag(name = "checkList", description = "The CheckList APIs")
 public class CheckListControllerImpl implements CheckListController {
     @Autowired
     private CheckListService checkListService;
+
+    @Override
+    public ResponseEntity<List<CheckList>> getAllCheckLists() {
+        return checkListService.getAllCheckLists();
+    }
+
+    @Override
+    public ResponseEntity<Page<CheckList>> filter(CheckListFilter probe, Integer page, Integer size, String sortField, String sortDirection) {
+        return  checkListService.filter(probe, page, size, sortField, sortDirection);
+    }
 
     /***
      * Get CheckList by id

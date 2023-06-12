@@ -6,16 +6,47 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import it.bruffa.facilitymanager.model.dto.CheckListFilter;
+import it.bruffa.facilitymanager.model.dto.ReservationFilter;
 import it.bruffa.facilitymanager.model.dto.request.CreateCheckListRequest;
 import it.bruffa.facilitymanager.model.entity.CheckList;
+import it.bruffa.facilitymanager.model.entity.Reservation;
 import it.bruffa.facilitymanager.model.exception.ApiError;
 import it.bruffa.facilitymanager.model.exception.ItemNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 public interface CheckListController {
+
+    //get all
+    @Operation(summary = "Get all checkLists", description = "Get all checkLists", tags = {"checkList"})
+    @GetMapping
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+    })
+    ResponseEntity<List<CheckList>> getAllCheckLists();
+
+
+    @Operation(summary = "filter", description = "Filter CheckList", tags = {"CheckList"})
+    @PostMapping("/filter")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
+            @ApiResponse(responseCode = "500", description = "Error not found - EmptyArray Exception",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiError.class))}),
+    })
+    ResponseEntity<Page<CheckList>> filter(
+            @RequestBody(required = false) CheckListFilter probe,
+            @RequestParam(required = false, defaultValue = "0", name = "page") Integer page,
+            @RequestParam(required = false, defaultValue = "10", name = "size") Integer size,
+            @RequestParam(required = false, name = "sortField") String sortField,
+            @RequestParam(required = false, name = "sortDirection") String sortDirection);
+
 
     @Operation(summary = "Get checkList by id", description = "Get checkList by id", tags = {"checkList"})
     @GetMapping("/{checkListId}")
