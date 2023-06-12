@@ -128,7 +128,6 @@ public class UserServiceImpl implements UserService {
 
                     case "ROLE_ADMIN" -> {
                         selectedRoles.add(admin);
-                        selectedRoles.add(userRole);
                     }
                     case "ROLE_MAINTAINER" -> {
                         selectedRoles.add(maintainer);
