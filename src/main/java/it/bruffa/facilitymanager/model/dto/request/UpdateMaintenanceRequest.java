@@ -27,7 +27,6 @@ public class UpdateMaintenanceRequest {
     @Schema(description = "Date of the Maintenance action", example = "2021-05-05")
     private java.time.LocalDateTime date;
 
-
     @Schema(description = "Duration of the Maintenance action", example = "6")
     private Integer duration;
 

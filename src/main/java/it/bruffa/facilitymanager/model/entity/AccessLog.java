@@ -25,7 +25,6 @@ public class AccessLog {
     @JsonBackReference(value = "gate-accessLog")
     private Gate gate;
 
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonManagedReference(value = "user-accessLog")

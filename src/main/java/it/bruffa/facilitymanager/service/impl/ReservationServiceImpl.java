@@ -47,9 +47,17 @@ public class ReservationServiceImpl implements ReservationService {
 
             Reservation filter = new Reservation();
 
-            if (probe.getStructureId() != null && structureRepository.existsById(probe.getStructureId()))
-                filter.setStructure(structureRepository.findById(probe.getStructureId()).get());
-
+            if (probe.getStructureId() != null) {
+                if (structureRepository.existsById(probe.getStructureId())){
+                    Structure structure = structureRepository.findById(probe.getStructureId()).get();
+                    structure.setGate(null);
+                    structure.setQuote(null);
+                    filter.setStructure(structure);
+                }else
+                {
+                    return ResponseEntity.status(400).build();
+                }
+            }
             PropertiesHelper.copyNonNullProperties(probe, filter);
 
 
@@ -86,7 +94,7 @@ public class ReservationServiceImpl implements ReservationService {
     public ResponseEntity<Reservation> createReservation(CreateReservationRequest createReservationRequest) {
         try {
             logger.debug("createReservation() called with createReservationRequest: {}", createReservationRequest);
-            Structure structure = structureRepository.findById(createReservationRequest.getStructureId()).orElseThrow(  () -> new Exception("Structure not found"));
+            Structure structure = structureRepository.findById(createReservationRequest.getStructureId()).orElseThrow(() -> new Exception("Structure not found"));
             Reservation reservation = ReservationBuilder.builder().structure(structure).arrival(createReservationRequest.getArrival()).departure(createReservationRequest.getDeparture()).checkIn(createReservationRequest.getCheckIn()).checkOut(createReservationRequest.getCheckOut()).guests(createReservationRequest.getGuests()).guestSurname(createReservationRequest.getGuestSurname()).guestName(createReservationRequest.getGuestName()).build();
 
             List<Reservation> reservations = reservationRepository.getAllBetweenDatesAndStructure(createReservationRequest.getArrival(), createReservationRequest.getDeparture(), createReservationRequest.getStructureId());

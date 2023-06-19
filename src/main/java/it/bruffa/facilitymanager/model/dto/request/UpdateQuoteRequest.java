@@ -25,7 +25,6 @@ public class UpdateQuoteRequest {
     @Schema(description = "Quote price", example = "100.0")
     private Double price;
 
-
     @Schema(description = "Quote main user", example = "1")
     private Long userId;
 

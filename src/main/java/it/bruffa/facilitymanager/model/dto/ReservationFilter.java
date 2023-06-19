@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 @Data
 @NoArgsConstructor
@@ -18,11 +19,11 @@ public class ReservationFilter {
     private Long structureId;
 
     @Schema(description = "Date of arrival", example = "2021-05-05")
-    private java.time.LocalDateTime arrival;
+    private LocalDate arrival;
 
 
     @Schema(description = "Date of departure", example = "2021-06-05")
-    private java.time.LocalDateTime departure;
+    private LocalDate departure;
 
     @Schema(description = "Check in time", example = "10:00")
     private LocalTime checkIn;

@@ -1,6 +1,7 @@
 package it.bruffa.facilitymanager.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -40,6 +41,7 @@ public class Gate {
 
     @OneToOne(mappedBy = "gate")
     @JsonBackReference(value = "gate-structure")
+  @JsonIgnore
     private Structure structure;
 
 

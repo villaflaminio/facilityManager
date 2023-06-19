@@ -75,4 +75,8 @@ public class Maintenance {
     @JsonManagedReference(value = "maintenance-quote")
     private Quote quote;
 
+    public Long getStructureId() {
+        return structure.getId();
+    }
+
 }
