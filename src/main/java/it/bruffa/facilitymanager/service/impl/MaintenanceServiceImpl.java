@@ -50,20 +50,55 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             Pageable pageable;
             Maintenance filter = new Maintenance();
 
-            if (probe.getStructureId() != null && structureRepository.existsById(probe.getStructureId()))
-                filter.setStructure(structureRepository.findById(probe.getStructureId()).get());
+            if (probe.getStructureId() != null) {
+                if (structureRepository.existsById(probe.getStructureId())) {
+                    Structure structure = structureRepository.findById(probe.getStructureId()).get();
+                    structure.setGate(null);
+                    structure.setQuote(null);
+                    filter.setStructure(structure);
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
 
-            if (probe.getUserId() != null && userRepository.existsById(probe.getUserId()))
-                filter.setUser(userRepository.findById(probe.getUserId()).get());
+            if (probe.getUserId() != null) {
+                if (userRepository.existsById(probe.getUserId())) {
+                    filter.setUser(userRepository.findById(probe.getUserId()).get());
 
-            if (probe.getCheckListId() != null && checkListRepository.existsById(probe.getCheckListId()))
-                filter.setCheckList(checkListRepository.findById(probe.getCheckListId()).get());
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
 
-            if (probe.getQuoteId() != null && quoteRepository.existsById(probe.getQuoteId()))
-                filter.setQuote(quoteRepository.findById(probe.getQuoteId()).get());
 
-            if (probe.getFeedbackId() != null && feedbackRepository.existsById(probe.getFeedbackId()))
-                filter.setFeedback(feedbackRepository.findById(probe.getFeedbackId()).get());
+            if (probe.getCheckListId() != null) {
+                if (checkListRepository.existsById(probe.getCheckListId())) {
+                    filter.setCheckList(checkListRepository.findById(probe.getCheckListId()).get());
+
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
+
+
+            if (probe.getQuoteId() != null) {
+                if (quoteRepository.existsById(probe.getQuoteId())) {
+                    filter.setQuote(quoteRepository.findById(probe.getQuoteId()).get());
+
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
+
+
+            if (probe.getFeedbackId() != null) {
+                if (feedbackRepository.existsById(probe.getFeedbackId())) {
+                    filter.setFeedback(feedbackRepository.findById(probe.getFeedbackId()).get());
+
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
 
             PropertiesHelper.copyNonNullProperties(probe, filter);
 
@@ -267,6 +302,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
             return ResponseEntity.badRequest().build();
         }
     }
+
     @Override
     public ResponseEntity<List<ResponseFile>> getDocumentS(Long maintenanceId) {
         try {
@@ -290,7 +326,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         } catch (Exception e) {
             logger.error("Error in getPicture method: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
-        }}
+        }
+    }
+
     @Override
     public ResponseEntity<Boolean> deleteDocument(Long documentId) throws Exception {
         try {
