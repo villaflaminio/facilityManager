@@ -41,7 +41,7 @@ public class Gate {
 
     @OneToOne(mappedBy = "gate")
     @JsonBackReference(value = "gate-structure")
-  @JsonIgnore
+//  @JsonIgnore
     private Structure structure;
 
 
