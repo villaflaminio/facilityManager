@@ -46,7 +46,6 @@ public class Maintenance {
     private MaintenanceStatus status;
 
     @Column(name = "description")
-    @Lob
     private String description;
 
     @Column(name = "date")
