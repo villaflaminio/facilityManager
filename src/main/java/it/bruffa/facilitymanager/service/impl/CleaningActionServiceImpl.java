@@ -194,6 +194,8 @@ public class CleaningActionServiceImpl implements CleaningActionService {
         File picture = fileRepository.findById(pictureId).orElseThrow(() -> new RuntimeException("Picture not found"));
 
         try {
+            picture.setCleaningActions(null);
+
             fileRepository.delete(picture);
             return ResponseEntity.status(HttpStatus.OK).body(true);
         } catch (Exception e) {

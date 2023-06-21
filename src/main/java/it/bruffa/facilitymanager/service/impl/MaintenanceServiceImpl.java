@@ -236,6 +236,8 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         try {
             logger.debug("Enter into deletePicture method with id: {}", pictureId);
             File file = fileRepository.findById(pictureId).orElseThrow(() -> new Exception("File not found"));
+            file.setMaintenance(null);
+
             fileRepository.delete(file);
 
             return ResponseEntity.ok(true);
@@ -334,7 +336,10 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         try {
             logger.debug("Enter into deleteDocument method with id: {}", documentId);
             File file = fileRepository.findById(documentId).orElseThrow(() -> new Exception("File not found"));
+
+            file.setMaintenance(null);
             fileRepository.delete(file);
+
 
             return ResponseEntity.ok(true);
         } catch (Exception e) {
