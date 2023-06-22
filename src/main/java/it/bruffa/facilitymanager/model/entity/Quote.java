@@ -1,6 +1,7 @@
 package it.bruffa.facilitymanager.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -30,8 +31,8 @@ public class Quote {
     @Column(name = "price")
     private Double price;
 
-    @OneToOne
-    @JoinColumn(name = "maintenance_id")
+
+    @OneToOne(mappedBy = "quote")
     @JsonBackReference(value = "maintenance-quote")
     private Maintenance maintenance;
 

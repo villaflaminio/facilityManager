@@ -151,14 +151,17 @@ public class MaintenanceServiceImpl implements MaintenanceService {
                     .build();
 
             Quote quote = QuoteBuilder.builder()
-                    .maintenance(maintenance)
                     .description(createMaintenanceRequest.getDescription())
                     .structure(structure)
                     .user(user)
                     .accepted(false)
                     .build();
-            maintenanceRepository.save(maintenance);
-            quoteRepository.save(quote);
+
+            Quote savedQuote = quoteRepository.save(quote);
+            Maintenance saved =   maintenanceRepository.save(maintenance);
+
+            saved.setQuote(savedQuote);
+            maintenanceRepository.save(saved);
 
             logger.debug("Maintenance created: {}", maintenance);
             return ResponseEntity.ok(maintenance);

@@ -67,15 +67,15 @@ public class Maintenance {
     @Column(name = "cost")
     private Double cost;
 
-    @OneToOne(orphanRemoval = true)
-    @JoinTable(name = "maintenance_quote",
-            joinColumns = @JoinColumn(name = "maintenance_id"),
-            inverseJoinColumns = @JoinColumn(name = "quote_id"))
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "quote_id", referencedColumnName = "id")
     @JsonManagedReference(value = "maintenance-quote")
     private Quote quote;
-
     public Long getStructureId() {
         return structure.getId();
     }
-
+    public Long getUserId() {
+        return user.getId();
+    }
 }
