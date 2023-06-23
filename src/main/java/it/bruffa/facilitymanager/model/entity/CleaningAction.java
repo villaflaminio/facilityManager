@@ -66,4 +66,7 @@ public class CleaningAction {
     public Long getStructureId() {
         return structure.getId();
     }
+    public Long getUserId() {
+        return user.getId();
+    }
 }
