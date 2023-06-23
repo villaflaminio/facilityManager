@@ -62,4 +62,8 @@ public class CleaningAction {
     @Max(24)
     @Min(1)
     private Integer cleaningDuration;
+
+    public Long getStructureId() {
+        return structure.getId();
+    }
 }
