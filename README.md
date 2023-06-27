@@ -8,7 +8,6 @@ Applicativo per gestione pulizie e manutenzioni di bed and breakfast
 
 La piattaforma di gestione degli interventi di pulizia e manutenzione per strutture Bed&Breakfast è stata ideata per rispondere alle esigenze di una società che gestisce un elevato numero di B&B e che si trova ad affrontare sfide nella coordinazione delle attività di pulizia e manutenzione per ciascuna struttura. L'obiettivo principale del progetto è integrare la piattaforma con l'infrastruttura domotica esistente dei B&B, consentendo l'apertura delle serrature da remoto tramite la tecnologia MQTT.
 
-Bruffa Edoardo
 
 Sommario
 
