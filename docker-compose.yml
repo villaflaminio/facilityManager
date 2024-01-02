@@ -1,67 +1,121 @@
 version: "2.2"
 services:
-    # App backend service
+  # App backend service
 
-    db:
-        image: mysql:5.7
-        container_name: facility_management_db
-        volumes:
-            - facility_management_db:/var/lib/mysql
-        restart: always
-        ports:
-            - "6001:3306"
-        environment:
-            MYSQL_ROOT_PASSWORD: 4P2bauIt7WIdpXnd
-            MYSQL_DATABASE: facility_management
-            MYSQL_PASSWORD: 4P2bauIt7WIdpXnd
-        networks:
-            network:
-                ipv4_address: 172.95.0.2
+  db:
+    image: mysql:5.7
+    container_name: facility_management_db
+    volumes:
+      - facility_management_db:/var/lib/mysql
+    restart: always
+    ports:
+      - "6001:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 4P2bauIt7WIdpXnd
+      MYSQL_DATABASE: facility_management
+      MYSQL_PASSWORD: 4P2bauIt7WIdpXnd
+    networks:
+      network:
+        ipv4_address: 172.95.0.2
 
-    app-server:
-        # Configuration for building the docker image for the backend service
-        container_name: facility_management_be
-        build:
-            context: sourceCode
-            dockerfile: Dockerfile
-        ports:
-            - 6003:8080 # Forward the exposed port 8080 on the container to port 5002 on the host machine
-        restart: always
-        depends_on:
-            - db # This service depends on mysql. Start that first.
-        environment: # Pass environment variables to the service
-            - spring.profiles.active=prod
-            - spring.datasource.url=jdbc:mysql://db:3306/facility_management?useSSL=false&serverTimezone=UTC
-            - spring.datasource.username=root
-            - spring.datasource.password=4P2bauIt7WIdpXnd
-        networks:
-            network:
-                ipv4_address: 172.95.0.3
+  app-server:
+    # Configuration for building the docker image for the backend service
+    container_name: facility_management_be
+    build:
+      context: .
+      #            context: sourceCode
+      dockerfile: Dockerfile
+    ports:
+      - 6003:8080 # Forward the exposed port 8080 on the container to port 5002 on the host machine
+    restart: always
+    depends_on:
+      - db # This service depends on mysql. Start that first.
+    environment: # Pass environment variables to the service
+      - spring.profiles.active=prod
+      - spring.datasource.url=jdbc:mysql://db:3306/facility_management?useSSL=false&serverTimezone=UTC
+      - spring.datasource.username=root
+      - spring.datasource.password=4P2bauIt7WIdpXnd
+    networks:
+      network:
+        ipv4_address: 172.95.0.3
+    volumes:
+      - logs_facility_management_be:/logs_facility_management_be
 
-    # for php myadmin goto http://localhost:5001
-    phpmyadmino:
-        container_name: facility_management_db_phpmyadmin
-        depends_on:
-            - db
-        image: phpmyadmin
-        restart: always
-        ports:
-            - "6002:80"
-        environment:
-            PMA_HOST: db
-            MYSQL_ROOT_PASSWORD: 4P2bauIt7WIdpXnd
-        networks:
-            network:
-                ipv4_address: 172.95.0.4
+  # for php myadmin goto http://localhost:5001
+  phpmyadmino:
+    container_name: facility_management_db_phpmyadmin
+    depends_on:
+      - db
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "6002:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: 4P2bauIt7WIdpXnd
+    networks:
+      network:
+        ipv4_address: 172.95.0.4
 
 volumes:
-    facility_management_db:
+  facility_management_db:
+  logs_facility_management_be:
 
 networks:
-    network:
-        driver: bridge
-        ipam:
-            config:
-                -
-                    subnet: 172.95.0.0/16
-                    gateway: 172.95.0.1
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.95.0.0/16
+          gateway: 172.95.0.1
+
+#version: "3.3"
+#services:
+#
+#  app:
+#    build:
+#      context: ./
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - internal
+#
+#  prometheus:
+#    image: prom/prometheus
+#    command:
+#      - '--config.file=/etc/prometheus/prometheus.yml'
+#      - '--storage.tsdb.path=/prometheus'
+#    ports:
+#      - "9090:9090"
+#    networks:
+#      - internal
+#    volumes:
+#      - ./prometheus/:/etc/prometheus/
+#      - prometheus:/prometheus
+#    depends_on:
+#      - app
+#
+#  grafana:
+#    image: grafana/grafana:$GRAFANA_VERSION
+#    environment:
+#      GF_SECURITY_ADMIN_USER: $GRAFANA_ADMIN_USER
+#      GF_SECURITY_ADMIN_PASSWORD: $GRAFANA_ADMIN_PASSWORD
+#      PROMETHEUS_HOST: $PROMETHEUS_HOST
+#    ports:
+#      - 3000:3000
+#    volumes:
+#      - grafana-storage:/var/lib/grafana
+#      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+#      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+#    depends_on:
+#      - prometheus
+#    networks:
+#      - internal
+#
+#networks:
+#  internal:
+#
+#volumes:
+#  elasticsearch:
+#  prometheus:
+#  grafana-storage:
